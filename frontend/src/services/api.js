@@ -33,7 +33,6 @@ class ApiService {
       }
     }
     // eslint-disable-next-line no-console
-    console.log(prefixedUrl, options);
     return fetch(prefixedUrl, request).then((res) => {
       if (res.ok) {
         if (res.headers.get('content-type') === 'application/json') {
@@ -66,6 +65,11 @@ class ApiService {
       params.set('end_date__lte', filters.endDate.toISOString());
     return this.fetch(`/api/events/?${params}`);
   };
+
+  getTimelineDensity = () => {
+    return this.fetch('/api/events/get_timeline_density/');
+  }
 }
+
 
 export const api = new ApiService();
