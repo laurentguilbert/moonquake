@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Layout } from "antd";
+import React from "react";
+
+import Events from "./components/Events";
+import Globe from "./components/Globe";
+
+import "./App.less";
+
+const { Header, Footer, Content, Sider } = Layout;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout id="app">
+      <Layout>
+        <Header>
+          <div id="logo">MOONQUAKE</div>
+        </Header>
+        <Content>
+          <Globe />
+        </Content>
+        <Footer></Footer>
+      </Layout>
+      <Sider width="40%" style={{ padding: "20px" }}>
+        <Events />
+      </Sider>
+    </Layout>
   );
 }
 
