@@ -7,36 +7,46 @@ const { RangePicker } = DatePicker;
 const { Title } = Typography;
 
 const Events = () => {
+  const [filters, setFilters] = useState({});
   const [events, setEvents] = useState([]);
 
+  console.log("filters", filters);
+
   useEffect(() => {
-    api.getEvents().then(setEvents);
-  }, []);
+    api.getEvents(filters).then(setEvents);
+  }, [filters]);
 
   return (
     <Space direction="vertical" className="events" style={{ width: "100%" }}>
       <Title>Events</Title>
       <Form layout="vertical">
         <Form.Item label="Date range">
-          <RangePicker showTime />
+          <RangePicker
+            showTime
+            allowEmpty={[true, true]}
+            onChange={(range) => {
+              setFilters({
+                ...filters,
+                startDate: (range && range[0]) || undefined,
+                endDate: (range && range[1]) || undefined,
+              });
+            }}
+          />
         </Form.Item>
         <Form.Item label="Event type">
           <Checkbox.Group
-            defaultValue={[
-              "moonquake_deep",
-              "moonquake_shallow",
-              "meteoroid_impact",
-              "short_period_event",
-              "lm_impact",
-              "sivb",
-            ]}
+            onChange={(types) => {
+              setFilters({ ...filters, types });
+            }}
+            defaultValue={["A", "M", "H", "C", "Z", "L", "S"]}
             options={[
-              { label: "Moonquake (deep)", value: "moonquake_deep" },
-              { label: "Moonquake (shallow)", value: "moonquake_shallow" },
-              { label: "Meteoroid impact", value: "meteoroid_impact" },
-              { label: "Short period event", value: "short_period_event" },
-              { label: "Lunar module impact", value: "lm_impact" },
-              { label: "S-IVB", value: "sivb" },
+              { label: "Moonquake (deep) C", value: "A" },
+              { label: "Moonquake (deep) U", value: "M" },
+              { label: "Moonquake (shallow)", value: "H" },
+              { label: "Meteoroid impact", value: "C" },
+              { label: "Short period event", value: "Z" },
+              { label: "Lunar module impact", value: "L" },
+              { label: "S-IVB", value: "S" },
             ]}
           />
         </Form.Item>

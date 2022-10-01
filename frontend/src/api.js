@@ -57,8 +57,14 @@ class ApiService {
     });
   };
 
-  getEvents = () => {
-    return this.fetch("/api/events/");
+  getEvents = (filters) => {
+    const params = new URLSearchParams();
+    if (filters.types) params.set("type__in", filters.types);
+    if (filters.startDate)
+      params.set("start_date__gte", filters.startDate.toISOString());
+    if (filters.endDate)
+      params.set("end_date__lte", filters.endDate.toISOString());
+    return this.fetch(`/api/events/?${params}`);
   };
 }
 

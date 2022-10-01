@@ -8,7 +8,7 @@ from event.serializers import EventSerializer
 class EventFilter(django_filters.FilterSet):
     class Meta:
         model = Event
-        fields = {"type": ["exact"], "start_date": ["gte"], "end_date": ["lte"]}
+        fields = {"type": ["in"], "start_date": ["gte"], "end_date": ["lte"]}
 
 
 class EventViewSet(ReadOnlyModelViewSet):

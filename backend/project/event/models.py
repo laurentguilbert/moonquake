@@ -7,7 +7,7 @@ class Event(models.Model):
         UNCLASSIFIED_DEEP_MOONQUAKE = "M"
         METEOROID_IMPACT = "C"
         SHALLOW_MOONQUAKE = "H"
-        MOSTLY_SHORT_PERIOD_EVENT = "Z"
+        SHORT_PERIOD_EVENT = "Z"
         LM_IMPACT = "L"
         SIVB = "S"
 
