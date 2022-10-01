@@ -16,9 +16,7 @@ const { Content, Sider } = Layout;
 
 function App() {
   const { state, dispatch } = useEventsContext();
-  const { startDate, endDate, types, selectedEvent } = state;
-
-  console.log('selectedEvent', selectedEvent);
+  const { startDate, endDate, types } = state;
 
   useEffect(() => {
     dispatch(setSelectedEvent(null));

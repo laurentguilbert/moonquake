@@ -1,27 +1,24 @@
-import { scaleOrdinal } from 'd3-scale';
+import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 
 import lunarBumpmap from '../assets/lunar_bumpmap.jpg';
 import lunarSurface from '../assets/lunar_surface.jpg';
-import { moonLandings } from '../assets/moonLandings';
+import orbitronFacetype from '../assets/orbitron_facetype.json';
+import sites from '../assets/sites.json';
 import { useEventsContext } from '../contexts/EventsContext';
+
+console.log('orbitronFacetype', orbitronFacetype);
 
 const Moon = () => {
   const { state } = useEventsContext();
   const { selectedEvent } = state;
 
   const ref = useRef(null);
-  const [landingSites, setLandingSites] = useState([]);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
-  const colorScale = scaleOrdinal([
-    'orangered',
-    'mediumblue',
-    'darkgreen',
-    'yellow',
-  ]);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
     setWidth(ref.current.offsetWidth);
@@ -40,22 +37,29 @@ const Moon = () => {
   ]);
 
   useEffect(() => {
-    setLandingSites(moonLandings);
+    setLabels(sites);
   }, []);
 
   const pointsData = [];
   if (selectedEvent) {
-    const { data_1 } = selectedEvent;
-    const size = 0.8;
-    const color = 'white';
+    const { start_date, data_1, data_2, data_3, data_4 } = selectedEvent;
 
+    const siteIndexes = [];
+    // Apollo 11 instruments worked for three weeks only.
     if (data_1)
+      siteIndexes.push(dayjs(start_date).isBefore('1969-09-01') ? 0 : 1);
+    if (data_2) siteIndexes.push(2);
+    if (data_3) siteIndexes.push(3);
+    if (data_4) siteIndexes.push(4);
+
+    siteIndexes.forEach((siteIndex) => {
       pointsData.push({
-        lat: moonLandings[0].lat,
-        lng: moonLandings[0].lng,
-        size,
-        color,
+        lat: sites[siteIndex].lat,
+        lng: sites[siteIndex].lng,
+        size: 0.8,
+        color: 'white',
       });
+    });
   }
 
   return (
@@ -67,18 +71,13 @@ const Moon = () => {
         bumpImageUrl={lunarBumpmap}
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         showGraticules={true}
-        labelsData={landingSites}
+        labelsData={labels}
         labelText="label"
-        labelSize={1.7}
-        labelDotRadius={0.4}
+        labelSize={1.5}
+        labelDotRadius={0.2}
         labelDotOrientation="top"
-        labelColor={(d) => colorScale(d.agency)}
-        labelLabel={(d) => `
-          <div><b>${d.label}</b></div>
-          <div>${d.agency} - ${d.program} Program</div>
-          <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
-        `}
-        onLabelClick={(d) => window.open(d.url, '_blank')}
+        labelColor={() => 'white'}
+        labelTypeFace={orbitronFacetype}
         pointsData={pointsData}
         pointAltitude="size"
         pointColor="color"

@@ -64,7 +64,11 @@ const Event = ({ event }) => {
           </Text>
         </Col>
         <Col className="event-data">
-          {data_1 && <EventDataTag mission="A11-12" value={data_1} />}
+          {data_1 && dayjs(start_date).isBefore('1969-09-01') ? (
+            <EventDataTag mission="A11" value={data_1} />
+          ) : (
+            <EventDataTag mission="A12" value={data_1} />
+          )}
           {data_2 && <EventDataTag mission="A14" value={data_2} />}
           {data_3 && <EventDataTag mission="A15" value={data_3} />}
           {data_4 && <EventDataTag mission="A16" value={data_4} />}
