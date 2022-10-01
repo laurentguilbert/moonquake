@@ -20,7 +20,6 @@ module.exports = {
   },
 };
 
-
 function mergeWebpackConfig(webpackConfig, { env }) {
   const { plugins } = webpackConfig;
   const customConf = customWebpackConfig(env);
