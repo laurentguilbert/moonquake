@@ -18,7 +18,7 @@ const Events = () => {
 
   return (
     <Space direction="vertical" className="events" style={{ width: "100%" }}>
-      <Title>Events</Title>
+      <Title>Seismic events</Title>
       <Form layout="vertical">
         <Form.Item label="Date range">
           <RangePicker
