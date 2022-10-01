@@ -1,20 +1,11 @@
 import React, { useEffect } from "react";
-import { scaleLinear } from 'd3-scale';
-import { max, extent } from 'd3-array';
+import { scaleLinear } from "d3-scale";
+import { max, extent } from "d3-array";
 
-import {
-  useMoonContext,
-  setStartDate,
-  setEndDate,
-} from "../contexts/MoonContext";
+import { useEventsContext } from "../contexts/EventsContext";
 
 const Timeline = () => {
-
-  const { state, dispatch } = useMoonContext();
-
-  useEffect(() => {
-    dispatch(setStartDate("somedate"))
-  }, []);
+  const { state, dispatch } = useEventsContext();
 
   return <div id="timeline"></div>;
 };
