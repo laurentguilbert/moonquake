@@ -1,16 +1,29 @@
 import React from "react";
-import { Card, Row, Col, Tag } from "antd";
+import { Card, Row, Col, Tag, Typography } from "antd";
+
+const { Text } = Typography;
 
 const Event = () => {
   return (
-    <Card>
-      <Row>
-        <Col>
-          <Tag color="orange">Moonquake</Tag>
+    <Card className="event">
+      <Row align="middle">
+        <Col span={6}>
+          <Tag color="#ff8f00">Moonquake (deep)</Tag>
         </Col>
-        <Col>Start 07/27/1969 23:48</Col>
-        <Col>End 07/28/1969 </Col>
-        <Col>See Detail</Col>
+        <Col span={8}>
+          07/27/1969 <Text strong>23:48 - 00:40</Text> UTC
+        </Col>
+        <Col span={10}>
+          <Tag color="#6a6a6a">
+            A11: <Text strong>3.1</Text> mm
+          </Tag>
+          <Tag color="#6a6a6a">
+            A14: <Text strong>3.1</Text> mm
+          </Tag>
+          <Tag color="#6a6a6a">
+            A15: <Text strong>3.1</Text> mm
+          </Tag>
+        </Col>
       </Row>
     </Card>
   );

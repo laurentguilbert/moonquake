@@ -20,7 +20,7 @@ function App() {
         </Content>
         <Footer></Footer>
       </Layout>
-      <Sider width="40%" style={{ padding: "20px" }}>
+      <Sider width="45%" style={{ padding: "20px" }}>
         <Events />
       </Sider>
     </Layout>
