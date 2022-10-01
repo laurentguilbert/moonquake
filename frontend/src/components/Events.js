@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Space, Typography, Form, DatePicker, Checkbox } from "antd";
-
+import { api } from "../api";
 import Event from "./Event";
 
 const { RangePicker } = DatePicker;
 const { Title } = Typography;
 
 const Events = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    api.getEvents().then(setEvents);
+  }, []);
+
   return (
-    <Space direction="vertical" style={{ width: "100%" }}>
+    <Space direction="vertical" className="events" style={{ width: "100%" }}>
       <Title>Events</Title>
       <Form layout="vertical">
         <Form.Item label="Date range">
@@ -35,10 +41,14 @@ const Events = () => {
           />
         </Form.Item>
       </Form>
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <Event />
-        <Event />
-        <Event />
+      <Space
+        className="events-list"
+        direction="vertical"
+        style={{ width: "100%" }}
+      >
+        {events.map((event) => (
+          <Event key={event.id} event={event} />
+        ))}
       </Space>
     </Space>
   );

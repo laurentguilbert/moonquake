@@ -23,6 +23,7 @@ h1.ant-typography {
 #app {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
 #main {
@@ -36,7 +37,6 @@ h1.ant-typography {
 
 #timeline {
   height: 30%;
-  background-color: red;
 }
 
 #logo {
@@ -51,13 +51,22 @@ h1.ant-typography {
 }
 
 #sidebar {
-  padding: 20px;
   min-width: 650px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.events {
+  padding: 20px;
 }
 
 .event {
   &:hover {
     background-color: #393939;
     cursor: pointer;
+  }
+
+  .event-data {
+    text-align: right;
   }
 }

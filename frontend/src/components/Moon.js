@@ -10,6 +10,8 @@ const Moon = () => {
   const ref = useRef(null);
   const [landingSites, setLandingSites] = useState([]);
   const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
   const colorScale = scaleOrdinal([
     "orangered",
     "mediumblue",
@@ -19,12 +21,19 @@ const Moon = () => {
 
   useEffect(() => {
     setWidth(ref.current.offsetWidth);
+    setHeight(ref.current.offsetHeight);
+
     function handleResize() {
       setWidth(ref.current.offsetWidth);
+      setHeight(ref.current.offsetHeight);
     }
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
-  }, [ref.current?.parentElement.offsetWidth]);
+  }, [
+    ref.current?.parentElement.offsetWidth,
+    ref.current?.parentElement.offsetHeight,
+  ]);
 
   useEffect(() => {
     setLandingSites(moonLandings);
@@ -34,6 +43,7 @@ const Moon = () => {
     <div ref={ref} id="moon">
       <Globe
         width={width}
+        height={height}
         globeImageUrl={lunarSurface}
         bumpImageUrl={lunarBumpmap}
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
