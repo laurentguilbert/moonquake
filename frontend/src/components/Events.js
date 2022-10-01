@@ -13,7 +13,7 @@ const Events = () => {
   console.log("filters", filters);
 
   useEffect(() => {
-    api.getEvents(filters).then(setEvents);
+    api.getEvents(filters).then((response) => setEvents(response.results));
   }, [filters]);
 
   return (
