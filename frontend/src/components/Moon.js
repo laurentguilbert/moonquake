@@ -2,13 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import Globe from "react-globe.gl";
 import { scaleOrdinal } from "d3-scale";
 
-import { useMoonContext } from "../contexts/MoonContext";
+import { useEventsContext } from "../contexts/EventsContext";
 
 import lunarSurface from "../assets/lunar_surface.jpg";
 import lunarBumpmap from "../assets/lunar_bumpmap.jpg";
 import { moonLandings } from "../assets/moonLandings";
-
-
 
 const Moon = () => {
   const ref = useRef(null);
@@ -16,8 +14,8 @@ const Moon = () => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
-  const { state } = useMoonContext();
-  console.log("STATE", state)
+  const { state } = useEventsContext();
+  console.log("Moon state", state);
 
   const colorScale = scaleOrdinal([
     "orangered",

@@ -1,31 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import moment from "moment";
 import { Space, Typography, Form, DatePicker, Checkbox } from "antd";
-import { api } from "../api";
 import Event from "./Event";
 
 import {
-  useMoonContext,
+  useEventsContext,
   setStartDate,
-} from "../contexts/MoonContext";
+  setEndDate,
+  setTypes,
+} from "../contexts/EventsContext";
 
 const { RangePicker } = DatePicker;
 const { Title } = Typography;
 
 const Events = () => {
-  const [filters, setFilters] = useState({
-    startDate: null,
-    endDate: null,
-    types: ["A", "M", "H", "C", "Z", "L", "S"],
-  });
-  const [events, setEvents] = useState([]);
-
-  const { state, dispatch } = useMoonContext();
-  console.log("filters", filters);
-
-  useEffect(() => {
-    api.getEvents(filters).then((response) => setEvents(response.results));
-  }, [filters]);
+  const { state, dispatch } = useEventsContext();
+  const { startDate, endDate, types, events } = state;
 
   return (
     <Space direction="vertical" className="events" style={{ width: "100%" }}>
@@ -38,22 +28,19 @@ const Events = () => {
             disabledDate={(current) =>
               current.isBefore("1969-07-25") || current.isAfter("1978-01-01")
             }
+            value={[startDate, endDate]}
             onChange={(range) => {
-              dispatch(setStartDate(range && range[0]))
-              setFilters({
-                ...filters,
-                startDate: (range && range[0]) || undefined,
-                endDate: (range && range[1]) || undefined,
-              });
+              dispatch(setStartDate(range && range[0]));
+              dispatch(setEndDate(range && range[1]));
             }}
             defaultPickerValue={[moment("1969-07")]}
           />
         </Form.Item>
         <Form.Item label="Event type">
           <Checkbox.Group
-            defaultValue={["A", "M", "H", "C", "Z", "L", "S"]}
+            value={types}
             onChange={(types) => {
-              setFilters({ ...filters, types });
+              dispatch(setTypes(types));
             }}
             options={[
               { label: "Moonquake (deep) C", value: "A" },

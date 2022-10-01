@@ -1,17 +1,9 @@
 import React, { useEffect } from "react";
 
-import {
-  useMoonContext,
-  setStartDate,
-} from "../contexts/MoonContext";
+import { useEventsContext, setStartDate } from "../contexts/EventsContext";
 
 const Timeline = () => {
-
-  const { state, dispatch } = useMoonContext();
-
-  useEffect(() => {
-    dispatch(setStartDate("somedate"))
-  }, []);
+  const { state, dispatch } = useEventsContext();
 
   return <div id="timeline"></div>;
 };
