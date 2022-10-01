@@ -10,6 +10,7 @@ class Event(models.Model):
         SHORT_PERIOD_EVENT = "Z"
         LM_IMPACT = "L"
         SIVB = "S"
+        UNCLASSIFIED = "U"
 
     class Grade(models.TextChoices):
         HIGH = "A"

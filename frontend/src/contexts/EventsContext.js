@@ -8,7 +8,7 @@ export const EventsContext = createContext();
 const initialState = {
   startDate: dayjs('1969-07-01'),
   endDate: dayjs('1969-12-31'),
-  types: ['A', 'M', 'H', 'C', 'Z', 'L', 'S'],
+  types: ['A', 'M', 'H', 'C', 'Z', 'L', 'S', 'U'],
   events: [],
 };
 

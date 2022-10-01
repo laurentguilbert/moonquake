@@ -1,27 +1,29 @@
-import React from "react";
-import dayjs from "dayjs";
-import { Card, Row, Col, Tag, Typography } from "antd";
+import { Card, Col, Row, Tag, Typography } from 'antd';
+import dayjs from 'dayjs';
+import React from 'react';
 
 const { Text } = Typography;
 
 const EventTypeLabel = Object.freeze({
-  A: "Moonquake (deep) C",
-  M: "Moonquake (deep) U",
-  C: "Meteoroid impact",
-  H: "Moonquake (shallow)",
-  Z: "Short period event",
-  L: "Lunar module impact",
-  S: "S-IVB",
+  A: 'Moonquake (deep) C',
+  M: 'Moonquake (deep) U',
+  C: 'Meteoroid impact',
+  H: 'Moonquake (shallow)',
+  Z: 'Short period event',
+  L: 'Lunar module impact',
+  S: 'S-IVB',
+  U: 'Unclassified',
 });
 
 const EventTypeColor = Object.freeze({
-  A: "#ff8f00",
-  M: "#ff8f00",
-  C: "#a22222",
-  H: "#df9f4e",
-  Z: "#848484",
-  L: "#7627c6",
-  S: "#ad32e6",
+  A: '#ff8f00',
+  M: '#ff8f00',
+  C: '#a22222',
+  H: '#df9f4e',
+  Z: '#848484',
+  L: '#7627c6',
+  S: '#ad32e6',
+  U: '#717171',
 });
 
 const EventDataTag = ({ mission, value }) => {
@@ -39,17 +41,17 @@ const Event = ({ event }) => {
   return (
     <Card className="event">
       <Row align="middle" gutter={[20, 5]}>
-        <Col style={{ width: "180px" }}>
+        <Col style={{ width: '180px' }}>
           {type ? (
             <Tag color={EventTypeColor[type]}>{EventTypeLabel[type]}</Tag>
           ) : (
             <Tag>Unclassfied</Tag>
           )}
         </Col>
-        <Col style={{ width: "250px" }}>
-          {startDate.format("MM/DD/YYYY")}{" "}
+        <Col style={{ width: '250px' }}>
+          {startDate.format('MM/DD/YYYY')}{' '}
           <Text strong>
-            {startDate.format("HH:mm")} - {endDate.format("HH:mm")}
+            {startDate.format('HH:mm')} - {endDate.format('HH:mm')}
           </Text>
         </Col>
         <Col className="event-data">

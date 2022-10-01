@@ -47,6 +47,7 @@ const Events = () => {
               { label: 'Short period event', value: 'Z' },
               { label: 'Lunar module impact', value: 'L' },
               { label: 'S-IVB', value: 'S' },
+              { label: 'Unclassified', value: 'U' },
             ]}
           />
         </Form.Item>
