@@ -25,20 +25,16 @@ class EventViewSet(ReadOnlyModelViewSet):
     def get_timeline_density(self, request):
         events = np.array([
             e.toordinal() for e in 
-            Event.objects.all().values_list("start_date", flat=True)[:10]
-            ])
+            Event.objects.all().values_list("start_date", flat=True)
+        ])
         density_kwargs = {"bw_method": 0.2}
-        # density_kwargs = {}
         kde = gaussian_kde(events, **density_kwargs)
-        ind = np.linspace(events.min(), events.max(), 1000)
+        ind = np.linspace(events.min(), events.max(), 500)
         gkde = kde.evaluate(ind)
-        # kde = gaussian_kde(x, bw_method=bandwidth / x.std(ddof=1), **kwargs)
-        # kde.evaluate(x_grid)
-        # # serializer = self.get_serializer(recent_users, many=True)
         return Response({
             "events": [{
                 "date": datetime.datetime.fromordinal(int(date)),
                 "y": value,
             }
             for date, value in zip(ind, gkde)]
-            })
+        })

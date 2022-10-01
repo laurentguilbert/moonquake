@@ -45,11 +45,5 @@ class Event(models.Model):
     comments = models.CharField(max_length=150, blank=True, null=True)
     cluster_number = models.IntegerField(blank=True, null=True)
     
-    @property
-    def data_avg(self):
-        data_fields = [self.data_1, self.data_2, self.data_3, self.data_4]
-        data_values = [v for v in data_fields if v]
-        return mean(data_values)
-
     class Meta:
         ordering = ["start_date"]
