@@ -9,7 +9,7 @@ class Event(models.Model):
         SHALLOW_MOONQUAKE = "H"
         MOSTLY_SHORT_PERIOD_EVENT = "Z"
         LM_IMPACT = "L"
-        S_IVB = "S"
+        SIVB = "S"
 
     class Grade(models.TextChoices):
         HIGH = "A"
@@ -42,3 +42,6 @@ class Event(models.Model):
 
     comments = models.CharField(max_length=150, blank=True, null=True)
     cluster_number = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        ordering = ["start_date"]

@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                             ("H", "Shallow Moonquake"),
                             ("Z", "Mostly Short Period Event"),
                             ("L", "Lm Impact"),
-                            ("S", "S Ivb"),
+                            ("S", "SIVB"),
                         ],
                         max_length=1,
                         null=True,
