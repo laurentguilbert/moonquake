@@ -2,7 +2,7 @@ import { Layout } from "antd";
 import React from "react";
 
 import Events from "./components/Events";
-import Globe from "./components/Globe";
+import Moon from "./components/Moon";
 
 import "./App.less";
 
@@ -16,7 +16,7 @@ function App() {
           <div id="logo">MOONQUAKE</div>
         </Header>
         <Content>
-          <Globe />
+          <Moon />
         </Content>
         <Footer></Footer>
       </Layout>
