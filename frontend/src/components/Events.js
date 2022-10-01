@@ -1,5 +1,4 @@
 import { Checkbox, DatePicker, Form, Space, Typography } from 'antd';
-import dayjs from 'dayjs';
 import React from 'react';
 
 import {
@@ -25,9 +24,8 @@ const Events = () => {
           <RangePicker
             showTime
             disabledDate={(current) =>
-              current.isBefore('1969-07-25') || current.isAfter('1978-01-01')
+              current.isBefore('1969-07-20') || current.isAfter('1978-01-01')
             }
-            defaultPickerValue={[dayjs('1969-07')]}
             value={[startDate, endDate]}
             onChange={(range) => {
               dispatch(setStartDate(range && range[0]));

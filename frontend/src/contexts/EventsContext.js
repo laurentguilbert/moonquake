@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React, { createContext, useContext, useReducer } from 'react';
 
 export const EventsContext = createContext();
@@ -5,8 +6,8 @@ export const EventsContext = createContext();
 // Initial state
 
 const initialState = {
-  startDate: null,
-  endDate: null,
+  startDate: dayjs('1969-07-01'),
+  endDate: dayjs('1969-12-31'),
   types: ['A', 'M', 'H', 'C', 'Z', 'L', 'S'],
   events: [],
 };
