@@ -1,4 +1,5 @@
 const CracoLessPlugin = require("craco-less");
+const customWebpackConfig = require('./webpack-config');
 
 module.exports = {
   plugins: [
@@ -14,4 +15,22 @@ module.exports = {
       },
     },
   ],
+  webpack: {
+    configure: mergeWebpackConfig,
+  },
 };
+
+
+function mergeWebpackConfig(webpackConfig, { env }) {
+  const { plugins } = webpackConfig;
+  const customConf = customWebpackConfig(env);
+  return {
+    ...webpackConfig,
+    plugins: [...plugins, ...customConf.plugins],
+    module: {
+      ...webpackConfig.module,
+      rules: [...webpackConfig.module.rules, ...customConf.module.rules],
+    },
+  };
+}
+

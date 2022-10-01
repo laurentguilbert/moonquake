@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
+import { scaleLinear } from "d3-scale";
+import { max, extent } from "d3-array";
 
-import { useEventsContext, setStartDate } from "../contexts/EventsContext";
+import { useEventsContext } from "../contexts/EventsContext";
 
 const Timeline = () => {
   const { state, dispatch } = useEventsContext();

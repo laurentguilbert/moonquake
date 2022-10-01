@@ -1,6 +1,6 @@
 import React from "react";
-import moment from "moment";
-import { Space, Typography, Form, DatePicker, Checkbox } from "antd";
+import dayjs from "dayjs";
+import { Space, Typography, DatePicker, Form, Checkbox } from "antd";
 import Event from "./Event";
 
 import {
@@ -33,7 +33,7 @@ const Events = () => {
               dispatch(setStartDate(range && range[0]));
               dispatch(setEndDate(range && range[1]));
             }}
-            defaultPickerValue={[moment("1969-07")]}
+            defaultPickerValue={[dayjs("1969-07")]}
           />
         </Form.Item>
         <Form.Item label="Event type">
