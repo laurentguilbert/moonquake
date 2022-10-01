@@ -7,64 +7,107 @@ import lunarSurface from '../assets/lunar_surface.jpg';
 import orbitronFacetype from '../assets/orbitron_facetype.json';
 import sites from '../assets/sites.json';
 import { useEventsContext } from '../contexts/EventsContext';
-
-console.log('orbitronFacetype', orbitronFacetype);
+import { EventTypeColor } from '../core/enums';
 
 const Moon = () => {
   const { state } = useEventsContext();
   const { selectedEvent } = state;
 
-  const ref = useRef(null);
+  const containerRef = useRef(null);
+  const globeRef = useRef(null);
+
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
   const [labels, setLabels] = useState([]);
 
   useEffect(() => {
-    setWidth(ref.current.offsetWidth);
-    setHeight(ref.current.offsetHeight);
+    setWidth(containerRef.current.offsetWidth);
+    setHeight(containerRef.current.offsetHeight);
 
     function handleResize() {
-      setWidth(ref.current.offsetWidth);
-      setHeight(ref.current.offsetHeight);
+      setWidth(containerRef.current.offsetWidth);
+      setHeight(containerRef.current.offsetHeight);
     }
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
   }, [
-    ref.current?.parentElement.offsetWidth,
-    ref.current?.parentElement.offsetHeight,
+    containerRef.current?.parentElement.offsetWidth,
+    containerRef.current?.parentElement.offsetHeight,
   ]);
 
   useEffect(() => {
     setLabels(sites);
+
+    // https://github.com/vasturiano/globe.gl/blob/master/example/custom-globe-styling/index.html#L30-L33
+    setTimeout(() => {
+      const directionalLight = globeRef.current
+        .scene()
+        .children.find((obj3d) => obj3d.type === 'DirectionalLight');
+      directionalLight && directionalLight.position.set(0, 0, 1);
+    });
   }, []);
 
-  const pointsData = [];
+  const points = [];
   if (selectedEvent) {
-    const { start_date, data_1, data_2, data_3, data_4 } = selectedEvent;
+    const { start_date, type, data_1, data_2, data_3, data_4 } = selectedEvent;
+    const pointData = { color: EventTypeColor[type] };
 
-    const siteIndexes = [];
-    // Apollo 11 instruments worked for three weeks only.
-    if (data_1)
-      siteIndexes.push(dayjs(start_date).isBefore('1969-09-01') ? 0 : 1);
-    if (data_2) siteIndexes.push(2);
-    if (data_3) siteIndexes.push(3);
-    if (data_4) siteIndexes.push(4);
-
-    siteIndexes.forEach((siteIndex) => {
-      pointsData.push({
-        lat: sites[siteIndex].lat,
-        lng: sites[siteIndex].lng,
-        size: 0.8,
-        color: 'white',
+    if (data_1) {
+      // Apollo 11 instruments worked for three weeks only.
+      if (dayjs(start_date).isBefore('1969-09-01'))
+        points.push({
+          ...pointData,
+          lat: sites[0].lat,
+          lng: sites[0].lng,
+          data: data_1,
+        });
+      else
+        points.push({
+          ...pointData,
+          lat: sites[1].lat,
+          lng: sites[1].lng,
+          data: data_1,
+        });
+    }
+    if (data_2)
+      points.push({
+        ...pointData,
+        lat: sites[2].lat,
+        lng: sites[2].lng,
+        data: data_2,
       });
-    });
+    if (data_3)
+      points.push({
+        ...pointData,
+        lat: sites[3].lat,
+        lng: sites[3].lng,
+        data: data_3,
+      });
+    if (data_4)
+      points.push({
+        ...pointData,
+        lat: sites[4].lat,
+        lng: sites[4].lng,
+        data: data_4,
+      });
   }
 
+  useEffect(() => {
+    if (points.length)
+      globeRef.current?.pointOfView(
+        { lat: points[0].lat, lng: points[0].lng, altitude: 1.5 },
+        1000
+      );
+  }, [points]);
+
+  const ringsData = points.map((point) => ({ ...point }));
+
   return (
-    <div ref={ref} id="moon">
+    <div ref={containerRef} id="moon">
       <Globe
+        ref={globeRef}
         width={width}
         height={height}
         globeImageUrl={lunarSurface}
@@ -74,13 +117,20 @@ const Moon = () => {
         labelsData={labels}
         labelText="label"
         labelSize={1.5}
-        labelDotRadius={0.2}
-        labelDotOrientation="top"
+        labelAltitude={0.1}
+        labelIncludeDot={false}
         labelColor={() => 'white'}
         labelTypeFace={orbitronFacetype}
-        pointsData={pointsData}
-        pointAltitude="size"
+        pointsData={points}
+        pointAltitude={0.5}
         pointColor="color"
+        pointRadius={0.1}
+        pointsTransitionDuration={200}
+        ringsData={ringsData}
+        ringColor="color"
+        ringMaxRadius={7}
+        ringPropagationSpeed={2}
+        ringRepeatPeriod={300}
       />
     </div>
   );
