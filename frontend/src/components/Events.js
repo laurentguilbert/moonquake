@@ -3,6 +3,11 @@ import { Space, Typography, Form, DatePicker, Checkbox } from "antd";
 import { api } from "../api";
 import Event from "./Event";
 
+import {
+  useMoonContext,
+  setStartDate,
+} from "../contexts/MoonContext";
+
 const { RangePicker } = DatePicker;
 const { Title } = Typography;
 
@@ -10,6 +15,7 @@ const Events = () => {
   const [filters, setFilters] = useState({});
   const [events, setEvents] = useState([]);
 
+  const { state, dispatch } = useMoonContext();
   console.log("filters", filters);
 
   useEffect(() => {
@@ -25,6 +31,7 @@ const Events = () => {
             showTime
             allowEmpty={[true, true]}
             onChange={(range) => {
+              dispatch(setStartDate(range && range[0]))
               setFilters({
                 ...filters,
                 startDate: (range && range[0]) || undefined,
