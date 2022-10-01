@@ -2,8 +2,7 @@ import { Checkbox, DatePicker, Form, Space, Typography } from 'antd';
 import React from 'react';
 
 import {
-  setEndDate,
-  setStartDate,
+  setDateRange,
   setTypes,
   useEventsContext,
 } from '../contexts/EventsContext';
@@ -28,8 +27,7 @@ const Events = () => {
             }
             value={[startDate, endDate]}
             onChange={(range) => {
-              dispatch(setStartDate(range && range[0]));
-              dispatch(setEndDate(range && range[1]));
+              dispatch(setDateRange([range && range[0], range && range[1]]));
             }}
           />
         </Form.Item>
