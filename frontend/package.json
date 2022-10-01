@@ -10,6 +10,7 @@
     "antd": "^4.23.3",
     "craco": "^0.0.3",
     "craco-less": "^2.0.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-globe.gl": "^2.22.4",

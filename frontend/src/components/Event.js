@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Card, Row, Col, Tag, Typography } from "antd";
 
 const { Text } = Typography;
@@ -32,7 +33,9 @@ const EventDataTag = ({ mission, value }) => {
 };
 
 const Event = ({ event }) => {
-  const { type, data_1, data_2, data_3, data_4 } = event;
+  const { start_date, end_date, type, data_1, data_2, data_3, data_4 } = event;
+  const startDate = moment(start_date);
+  const endDate = moment(end_date);
   return (
     <Card className="event">
       <Row align="middle">
@@ -44,7 +47,11 @@ const Event = ({ event }) => {
           )}
         </Col>
         <Col span={8}>
-          07/27/1969 <Text strong>23:48 - 00:40</Text> UTC
+          {startDate.format("MM/DD/YYYY")}{" "}
+          <Text strong>
+            {startDate.format("HH:mm")} - {endDate.format("HH:mm")}
+          </Text>{" "}
+          UTC
         </Col>
         <Col span={10} className="event-data">
           {data_1 && <EventDataTag mission="A11-12" value={data_1} />}
