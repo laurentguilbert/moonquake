@@ -15,20 +15,15 @@ const initialState = {
 
 // Actions
 
-export const SET_START_DATE = 'SET_START_DATE';
-export const SET_END_DATE = 'SET_END_DATE';
+export const SET_DATE_RANGE = 'SET_DATE_RANGE';
 export const SET_TYPES = 'SET_TYPES';
 export const SET_EVENTS = 'SET_EVENTS';
 export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
 
 // Action creators
 
-export function setStartDate(date) {
-  return { type: SET_START_DATE, date };
-}
-
-export function setEndDate(date) {
-  return { type: SET_START_DATE, date };
+export function setDateRange(dateRange) {
+  return { type: SET_DATE_RANGE, dateRange };
 }
 
 export function setTypes(types) {
@@ -47,15 +42,11 @@ export function setSelectedEvent(event) {
 
 export function EventReducer(state, action) {
   switch (action.type) {
-    case SET_START_DATE:
+    case SET_DATE_RANGE:
       return {
         ...state,
-        startDate: action.date,
-      };
-    case SET_END_DATE:
-      return {
-        ...state,
-        endDate: action.date,
+        startDate: action.dateRange[0],
+        endDate: action.dateRange[1],
       };
     case SET_TYPES:
       return {

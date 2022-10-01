@@ -19,7 +19,7 @@ const Moon = () => {
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
-  const [labels, setLabels] = useState([]);
+  const [labelsData, setLabelsData] = useState([]);
 
   useEffect(() => {
     setWidth(containerRef.current.offsetWidth);
@@ -38,7 +38,16 @@ const Moon = () => {
   ]);
 
   useEffect(() => {
-    setLabels(sites);
+    // Remove Apollo 14 from labels to avoid overlap with 12.
+    setLabelsData(
+      sites
+        .filter((site) => site.label !== 'Apollo 14')
+        .map((site, index) => ({
+          lat: site.lat,
+          lng: site.lng,
+          label: site.label === 'Apollo 12' ? 'Apollo 12 & 14' : site.label,
+        }))
+    );
 
     // https://github.com/vasturiano/globe.gl/blob/master/example/custom-globe-styling/index.html#L30-L33
     setTimeout(() => {
@@ -98,7 +107,7 @@ const Moon = () => {
     if (points.length)
       globeRef.current?.pointOfView(
         { lat: points[0].lat, lng: points[0].lng, altitude: 1.5 },
-        1000
+        500
       );
   }, [points]);
 
@@ -114,7 +123,7 @@ const Moon = () => {
         bumpImageUrl={lunarBumpmap}
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         showGraticules={true}
-        labelsData={labels}
+        labelsData={labelsData}
         labelText="label"
         labelSize={1.5}
         labelAltitude={0.1}
