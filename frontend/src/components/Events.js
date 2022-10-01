@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
-import { Space, Typography, Form, DatePicker, Checkbox } from "antd";
+import dayjs, { Dayjs } from 'dayjs';
+import { Space, Typography, DatePicker, Form, Checkbox } from "antd";
 import { api } from "../api";
 import Event from "./Event";
 
@@ -8,6 +8,7 @@ import {
   useMoonContext,
   setStartDate,
 } from "../contexts/MoonContext";
+
 
 const { RangePicker } = DatePicker;
 const { Title } = Typography;
@@ -46,7 +47,7 @@ const Events = () => {
                 endDate: (range && range[1]) || undefined,
               });
             }}
-            defaultPickerValue={[moment("1969-07")]}
+            defaultPickerValue={[dayjs("1969-07")]}
           />
         </Form.Item>
         <Form.Item label="Event type">
