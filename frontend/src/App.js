@@ -5,16 +5,23 @@ import './App.less';
 import Events from './components/Events';
 import Moon from './components/Moon';
 import Timeline from './components/Timeline';
-import { setEvents, useEventsContext } from './contexts/EventsContext';
+import {
+  setEvents,
+  setSelectedEvent,
+  useEventsContext,
+} from './contexts/EventsContext';
 import { api } from './services/api';
 
 const { Content, Sider } = Layout;
 
 function App() {
   const { state, dispatch } = useEventsContext();
-  const { startDate, endDate, types } = state;
+  const { startDate, endDate, types, selectedEvent } = state;
+
+  console.log('selectedEvent', selectedEvent);
 
   useEffect(() => {
+    dispatch(setSelectedEvent(null));
     api
       .getEvents({ startDate, endDate, types })
       .then((response) => dispatch(setEvents(response.results)));

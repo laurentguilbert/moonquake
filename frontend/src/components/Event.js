@@ -2,6 +2,8 @@ import { Card, Col, Row, Tag, Typography } from 'antd';
 import dayjs from 'dayjs';
 import React from 'react';
 
+import { setSelectedEvent, useEventsContext } from '../contexts/EventsContext';
+
 const { Text } = Typography;
 
 const EventTypeLabel = Object.freeze({
@@ -35,11 +37,18 @@ const EventDataTag = ({ mission, value }) => {
 };
 
 const Event = ({ event }) => {
+  const { state, dispatch } = useEventsContext();
+  const { selectedEvent } = state;
+
   const { start_date, end_date, type, data_1, data_2, data_3, data_4 } = event;
   const startDate = dayjs(start_date);
   const endDate = dayjs(end_date);
+
   return (
-    <Card className="event">
+    <Card
+      className={'event ' + (selectedEvent?.id === event.id ? 'is-active' : '')}
+      onClick={() => dispatch(setSelectedEvent(event))}
+    >
       <Row align="middle" gutter={[20, 5]}>
         <Col style={{ width: '180px' }}>
           {type ? (

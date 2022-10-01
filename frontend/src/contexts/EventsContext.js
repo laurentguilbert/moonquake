@@ -10,6 +10,7 @@ const initialState = {
   endDate: dayjs('1969-12-31'),
   types: ['A', 'M', 'H', 'C', 'Z', 'L', 'S', 'U'],
   events: [],
+  selectedEvent: null,
 };
 
 // Actions
@@ -18,6 +19,7 @@ export const SET_START_DATE = 'SET_START_DATE';
 export const SET_END_DATE = 'SET_END_DATE';
 export const SET_TYPES = 'SET_TYPES';
 export const SET_EVENTS = 'SET_EVENTS';
+export const SET_SELECTED_EVENT = 'SET_SELECTED_EVENT';
 
 // Action creators
 
@@ -35,6 +37,10 @@ export function setTypes(types) {
 
 export function setEvents(events) {
   return { type: SET_EVENTS, events };
+}
+
+export function setSelectedEvent(event) {
+  return { type: SET_SELECTED_EVENT, event };
 }
 
 // Reducers
@@ -60,6 +66,11 @@ export function EventReducer(state, action) {
       return {
         ...state,
         events: action.events,
+      };
+    case SET_SELECTED_EVENT:
+      return {
+        ...state,
+        selectedEvent: action.event,
       };
     default:
       return state;

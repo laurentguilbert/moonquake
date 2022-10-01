@@ -8,12 +8,13 @@ import { moonLandings } from '../assets/moonLandings';
 import { useEventsContext } from '../contexts/EventsContext';
 
 const Moon = () => {
+  const { state } = useEventsContext();
+  const { selectedEvent } = state;
+
   const ref = useRef(null);
   const [landingSites, setLandingSites] = useState([]);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
-
-  const { state } = useEventsContext();
 
   const colorScale = scaleOrdinal([
     'orangered',
@@ -42,6 +43,21 @@ const Moon = () => {
     setLandingSites(moonLandings);
   }, []);
 
+  const pointsData = [];
+  if (selectedEvent) {
+    const { data_1 } = selectedEvent;
+    const size = 0.8;
+    const color = 'white';
+
+    if (data_1)
+      pointsData.push({
+        lat: moonLandings[0].lat,
+        lng: moonLandings[0].lng,
+        size,
+        color,
+      });
+  }
+
   return (
     <div ref={ref} id="moon">
       <Globe
@@ -63,6 +79,9 @@ const Moon = () => {
           <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
         `}
         onLabelClick={(d) => window.open(d.url, '_blank')}
+        pointsData={pointsData}
+        pointAltitude="size"
+        pointColor="color"
       />
     </div>
   );
