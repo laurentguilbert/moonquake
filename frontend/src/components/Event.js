@@ -15,13 +15,13 @@ const Event = () => {
         </Col>
         <Col span={10}>
           <Tag color="#6a6a6a">
-            A11: <Text strong>3.1</Text> mm
+            A 11: <Text strong>3.1</Text> mm
           </Tag>
           <Tag color="#6a6a6a">
-            A14: <Text strong>3.1</Text> mm
+            A 14: <Text strong>3.1</Text> mm
           </Tag>
           <Tag color="#6a6a6a">
-            A15: <Text strong>3.1</Text> mm
+            A 15: <Text strong>3.1</Text> mm
           </Tag>
         </Col>
       </Row>
