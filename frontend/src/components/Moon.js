@@ -1,87 +1,136 @@
-import { scaleOrdinal } from 'd3-scale';
+import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
 
 import lunarBumpmap from '../assets/lunar_bumpmap.jpg';
 import lunarSurface from '../assets/lunar_surface.jpg';
-import { moonLandings } from '../assets/moonLandings';
+import orbitronFacetype from '../assets/orbitron_facetype.json';
+import sites from '../assets/sites.json';
 import { useEventsContext } from '../contexts/EventsContext';
+import { EventTypeColor } from '../core/enums';
 
 const Moon = () => {
   const { state } = useEventsContext();
   const { selectedEvent } = state;
 
-  const ref = useRef(null);
-  const [landingSites, setLandingSites] = useState([]);
+  const containerRef = useRef(null);
+  const globeRef = useRef(null);
+
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
-  const colorScale = scaleOrdinal([
-    'orangered',
-    'mediumblue',
-    'darkgreen',
-    'yellow',
-  ]);
+  const [labels, setLabels] = useState([]);
 
   useEffect(() => {
-    setWidth(ref.current.offsetWidth);
-    setHeight(ref.current.offsetHeight);
+    setWidth(containerRef.current.offsetWidth);
+    setHeight(containerRef.current.offsetHeight);
 
     function handleResize() {
-      setWidth(ref.current.offsetWidth);
-      setHeight(ref.current.offsetHeight);
+      setWidth(containerRef.current.offsetWidth);
+      setHeight(containerRef.current.offsetHeight);
     }
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
   }, [
-    ref.current?.parentElement.offsetWidth,
-    ref.current?.parentElement.offsetHeight,
+    containerRef.current?.parentElement.offsetWidth,
+    containerRef.current?.parentElement.offsetHeight,
   ]);
 
   useEffect(() => {
-    setLandingSites(moonLandings);
+    setLabels(sites);
+
+    // https://github.com/vasturiano/globe.gl/blob/master/example/custom-globe-styling/index.html#L30-L33
+    setTimeout(() => {
+      const directionalLight = globeRef.current
+        .scene()
+        .children.find((obj3d) => obj3d.type === 'DirectionalLight');
+      directionalLight && directionalLight.position.set(0, 0, 1);
+    });
   }, []);
 
-  const pointsData = [];
+  const points = [];
   if (selectedEvent) {
-    const { data_1 } = selectedEvent;
-    const size = 0.8;
-    const color = 'white';
+    const { start_date, type, data_1, data_2, data_3, data_4 } = selectedEvent;
+    const pointData = { color: EventTypeColor[type] };
 
-    if (data_1)
-      pointsData.push({
-        lat: moonLandings[0].lat,
-        lng: moonLandings[0].lng,
-        size,
-        color,
+    if (data_1) {
+      // Apollo 11 instruments worked for three weeks only.
+      if (dayjs(start_date).isBefore('1969-09-01'))
+        points.push({
+          ...pointData,
+          lat: sites[0].lat,
+          lng: sites[0].lng,
+          data: data_1,
+        });
+      else
+        points.push({
+          ...pointData,
+          lat: sites[1].lat,
+          lng: sites[1].lng,
+          data: data_1,
+        });
+    }
+    if (data_2)
+      points.push({
+        ...pointData,
+        lat: sites[2].lat,
+        lng: sites[2].lng,
+        data: data_2,
+      });
+    if (data_3)
+      points.push({
+        ...pointData,
+        lat: sites[3].lat,
+        lng: sites[3].lng,
+        data: data_3,
+      });
+    if (data_4)
+      points.push({
+        ...pointData,
+        lat: sites[4].lat,
+        lng: sites[4].lng,
+        data: data_4,
       });
   }
 
+  useEffect(() => {
+    if (points.length)
+      globeRef.current?.pointOfView(
+        { lat: points[0].lat, lng: points[0].lng, altitude: 1.5 },
+        1000
+      );
+  }, [points]);
+
+  const ringsData = points.map((point) => ({ ...point }));
+
   return (
-    <div ref={ref} id="moon">
+    <div ref={containerRef} id="moon">
       <Globe
+        ref={globeRef}
         width={width}
         height={height}
         globeImageUrl={lunarSurface}
         bumpImageUrl={lunarBumpmap}
         backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
         showGraticules={true}
-        labelsData={landingSites}
+        labelsData={labels}
         labelText="label"
-        labelSize={1.7}
-        labelDotRadius={0.4}
-        labelDotOrientation="top"
-        labelColor={(d) => colorScale(d.agency)}
-        labelLabel={(d) => `
-          <div><b>${d.label}</b></div>
-          <div>${d.agency} - ${d.program} Program</div>
-          <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
-        `}
-        onLabelClick={(d) => window.open(d.url, '_blank')}
-        pointsData={pointsData}
-        pointAltitude="size"
+        labelSize={1.5}
+        labelAltitude={0.1}
+        labelIncludeDot={false}
+        labelColor={() => 'white'}
+        labelTypeFace={orbitronFacetype}
+        pointsData={points}
+        pointAltitude={0.5}
         pointColor="color"
+        pointRadius={0.1}
+        pointsTransitionDuration={200}
+        ringsData={ringsData}
+        ringColor="color"
+        ringMaxRadius={7}
+        ringPropagationSpeed={2}
+        ringRepeatPeriod={300}
       />
     </div>
   );

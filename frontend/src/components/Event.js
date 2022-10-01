@@ -3,30 +3,9 @@ import dayjs from 'dayjs';
 import React from 'react';
 
 import { setSelectedEvent, useEventsContext } from '../contexts/EventsContext';
+import { EventTypeColor, EventTypeLabel } from '../core/enums';
 
 const { Text } = Typography;
-
-const EventTypeLabel = Object.freeze({
-  A: 'Moonquake (deep) C',
-  M: 'Moonquake (deep) U',
-  C: 'Meteoroid impact',
-  H: 'Moonquake (shallow)',
-  Z: 'Short period event',
-  L: 'Lunar module impact',
-  S: 'S-IVB',
-  U: 'Unclassified',
-});
-
-const EventTypeColor = Object.freeze({
-  A: '#ff8f00',
-  M: '#ff8f00',
-  C: '#a22222',
-  H: '#df9f4e',
-  Z: '#848484',
-  L: '#7627c6',
-  S: '#ad32e6',
-  U: '#717171',
-});
 
 const EventDataTag = ({ mission, value }) => {
   return (
@@ -64,7 +43,11 @@ const Event = ({ event }) => {
           </Text>
         </Col>
         <Col className="event-data">
-          {data_1 && <EventDataTag mission="A11-12" value={data_1} />}
+          {data_1 && dayjs(start_date).isBefore('1969-09-01') ? (
+            <EventDataTag mission="A11" value={data_1} />
+          ) : (
+            <EventDataTag mission="A12" value={data_1} />
+          )}
           {data_2 && <EventDataTag mission="A14" value={data_2} />}
           {data_3 && <EventDataTag mission="A15" value={data_3} />}
           {data_4 && <EventDataTag mission="A16" value={data_4} />}
