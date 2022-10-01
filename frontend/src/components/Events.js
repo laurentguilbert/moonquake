@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { Space, Typography, Form, DatePicker, Checkbox } from "antd";
 import { api } from "../api";
 import Event from "./Event";
@@ -7,7 +8,11 @@ const { RangePicker } = DatePicker;
 const { Title } = Typography;
 
 const Events = () => {
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    startDate: null,
+    endDate: null,
+    types: ["A", "M", "H", "C", "Z", "L", "S"],
+  });
   const [events, setEvents] = useState([]);
 
   console.log("filters", filters);
@@ -24,6 +29,9 @@ const Events = () => {
           <RangePicker
             showTime
             allowEmpty={[true, true]}
+            disabledDate={(current) =>
+              current.isBefore("1969-07-25") || current.isAfter("1978-01-01")
+            }
             onChange={(range) => {
               setFilters({
                 ...filters,
@@ -31,14 +39,15 @@ const Events = () => {
                 endDate: (range && range[1]) || undefined,
               });
             }}
+            defaultPickerValue={[moment("1969-07")]}
           />
         </Form.Item>
         <Form.Item label="Event type">
           <Checkbox.Group
+            defaultValue={["A", "M", "H", "C", "Z", "L", "S"]}
             onChange={(types) => {
               setFilters({ ...filters, types });
             }}
-            defaultValue={["A", "M", "H", "C", "Z", "L", "S"]}
             options={[
               { label: "Moonquake (deep) C", value: "A" },
               { label: "Moonquake (deep) U", value: "M" },

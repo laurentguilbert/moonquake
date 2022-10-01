@@ -1,5 +1,5 @@
 import React from "react";
-import dayjs from "dayjs";
+import moment from "moment";
 import { Card, Row, Col, Tag, Typography } from "antd";
 
 const { Text } = Typography;
@@ -34,8 +34,8 @@ const EventDataTag = ({ mission, value }) => {
 
 const Event = ({ event }) => {
   const { start_date, end_date, type, data_1, data_2, data_3, data_4 } = event;
-  const startDate = dayjs(start_date);
-  const endDate = dayjs(end_date);
+  const startDate = moment(start_date);
+  const endDate = moment(end_date);
   return (
     <Card className="event">
       <Row align="middle">
