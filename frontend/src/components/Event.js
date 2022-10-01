@@ -14,14 +14,14 @@ const Event = () => {
           07/27/1969 <Text strong>23:48 - 00:40</Text> UTC
         </Col>
         <Col span={10}>
-          <Tag color="#6a6a6a">
-            A 11: <Text strong>3.1</Text> mm
+          <Tag>
+            <Text strong>A11 :</Text> 3.1 mm
           </Tag>
-          <Tag color="#6a6a6a">
-            A 14: <Text strong>3.1</Text> mm
+          <Tag>
+            <Text strong>A11 :</Text> 3.1 mm
           </Tag>
-          <Tag color="#6a6a6a">
-            A 15: <Text strong>3.1</Text> mm
+          <Tag>
+            <Text strong>A11 :</Text> 3.1 mm
           </Tag>
         </Col>
       </Row>

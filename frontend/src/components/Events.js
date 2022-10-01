@@ -19,14 +19,18 @@ const Events = () => {
             defaultValue={[
               "moonquake_deep",
               "moonquake_shallow",
-              "asteroid_impact",
-              "other",
+              "meteoroid_impact",
+              "short_period_event",
+              "lm_impact",
+              "sivb",
             ]}
             options={[
               { label: "Moonquake (deep)", value: "moonquake_deep" },
               { label: "Moonquake (shallow)", value: "moonquake_shallow" },
-              { label: "Asteroid impact", value: "asteroid_impact" },
-              { label: "Other", value: "other" },
+              { label: "Meteoroid impact", value: "meteoroid_impact" },
+              { label: "Short period event", value: "short_period_event" },
+              { label: "Lunar module impact", value: "lm_impact" },
+              { label: "S-IVB", value: "sivb" },
             ]}
           />
         </Form.Item>
