@@ -1,14 +1,14 @@
-import React from "react";
-import dayjs from "dayjs";
-import { Space, Typography, DatePicker, Form, Checkbox } from "antd";
-import Event from "./Event";
+import { Checkbox, DatePicker, Form, Space, Typography } from 'antd';
+import dayjs from 'dayjs';
+import React from 'react';
 
 import {
-  useEventsContext,
-  setStartDate,
   setEndDate,
+  setStartDate,
   setTypes,
-} from "../contexts/EventsContext";
+  useEventsContext,
+} from '../contexts/EventsContext';
+import Event from './Event';
 
 const { RangePicker } = DatePicker;
 const { Title } = Typography;
@@ -18,22 +18,21 @@ const Events = () => {
   const { startDate, endDate, types, events } = state;
 
   return (
-    <Space direction="vertical" className="events" style={{ width: "100%" }}>
+    <Space direction="vertical" className="events" style={{ width: '100%' }}>
       <Title>Seismic events</Title>
       <Form layout="vertical">
         <Form.Item label="Date range">
           <RangePicker
             showTime
-            allowEmpty={[true, true]}
             disabledDate={(current) =>
-              current.isBefore("1969-07-25") || current.isAfter("1978-01-01")
+              current.isBefore('1969-07-25') || current.isAfter('1978-01-01')
             }
+            defaultPickerValue={[dayjs('1969-07')]}
             value={[startDate, endDate]}
             onChange={(range) => {
               dispatch(setStartDate(range && range[0]));
               dispatch(setEndDate(range && range[1]));
             }}
-            defaultPickerValue={[dayjs("1969-07")]}
           />
         </Form.Item>
         <Form.Item label="Event type">
@@ -43,13 +42,13 @@ const Events = () => {
               dispatch(setTypes(types));
             }}
             options={[
-              { label: "Moonquake (deep) C", value: "A" },
-              { label: "Moonquake (deep) U", value: "M" },
-              { label: "Moonquake (shallow)", value: "H" },
-              { label: "Meteoroid impact", value: "C" },
-              { label: "Short period event", value: "Z" },
-              { label: "Lunar module impact", value: "L" },
-              { label: "S-IVB", value: "S" },
+              { label: 'Moonquake (deep) C', value: 'A' },
+              { label: 'Moonquake (deep) U', value: 'M' },
+              { label: 'Moonquake (shallow)', value: 'H' },
+              { label: 'Meteoroid impact', value: 'C' },
+              { label: 'Short period event', value: 'Z' },
+              { label: 'Lunar module impact', value: 'L' },
+              { label: 'S-IVB', value: 'S' },
             ]}
           />
         </Form.Item>
@@ -57,7 +56,7 @@ const Events = () => {
       <Space
         className="events-list"
         direction="vertical"
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
       >
         {events.map((event) => (
           <Event key={event.id} event={event} />

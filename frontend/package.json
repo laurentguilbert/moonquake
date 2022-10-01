@@ -42,7 +42,8 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "@trivago/prettier-plugin-sort-imports": "^3.3.0"
   },
   "main": "index.js",
   "license": "MIT"

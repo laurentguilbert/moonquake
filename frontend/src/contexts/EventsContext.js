@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { createContext, useContext, useReducer } from 'react';
 
 export const EventsContext = createContext();
 
@@ -7,16 +7,16 @@ export const EventsContext = createContext();
 const initialState = {
   startDate: null,
   endDate: null,
-  types: ["A", "M", "H", "C", "Z", "L", "S"],
+  types: ['A', 'M', 'H', 'C', 'Z', 'L', 'S'],
   events: [],
 };
 
 // Actions
 
-export const SET_START_DATE = "SET_START_DATE";
-export const SET_END_DATE = "SET_END_DATE";
-export const SET_TYPES = "SET_TYPES";
-export const SET_EVENTS = "SET_EVENTS";
+export const SET_START_DATE = 'SET_START_DATE';
+export const SET_END_DATE = 'SET_END_DATE';
+export const SET_TYPES = 'SET_TYPES';
+export const SET_EVENTS = 'SET_EVENTS';
 
 // Action creators
 

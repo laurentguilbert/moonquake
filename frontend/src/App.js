@@ -1,13 +1,12 @@
-import { Layout } from "antd";
-import React, { useEffect } from "react";
+import { Layout } from 'antd';
+import React, { useEffect } from 'react';
 
-import { useEventsContext, setEvents } from "./contexts/EventsContext";
-import Events from "./components/Events";
-import Moon from "./components/Moon";
-import Timeline from "./components/Timeline";
-import { api } from "./services/api";
-
-import "./App.less";
+import './App.less';
+import Events from './components/Events';
+import Moon from './components/Moon';
+import Timeline from './components/Timeline';
+import { setEvents, useEventsContext } from './contexts/EventsContext';
+import { api } from './services/api';
 
 const { Content, Sider } = Layout;
 

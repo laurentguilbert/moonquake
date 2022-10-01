@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import Globe from "react-globe.gl";
-import { scaleOrdinal } from "d3-scale";
+import { scaleOrdinal } from 'd3-scale';
+import React, { useEffect, useRef, useState } from 'react';
+import Globe from 'react-globe.gl';
 
-import { useEventsContext } from "../contexts/EventsContext";
-
-import lunarSurface from "../assets/lunar_surface.jpg";
-import lunarBumpmap from "../assets/lunar_bumpmap.jpg";
-import { moonLandings } from "../assets/moonLandings";
+import lunarBumpmap from '../assets/lunar_bumpmap.jpg';
+import lunarSurface from '../assets/lunar_surface.jpg';
+import { moonLandings } from '../assets/moonLandings';
+import { useEventsContext } from '../contexts/EventsContext';
 
 const Moon = () => {
   const ref = useRef(null);
@@ -15,13 +14,12 @@ const Moon = () => {
   const [height, setHeight] = useState(0);
 
   const { state } = useEventsContext();
-  console.log("Moon state", state);
 
   const colorScale = scaleOrdinal([
-    "orangered",
-    "mediumblue",
-    "darkgreen",
-    "yellow",
+    'orangered',
+    'mediumblue',
+    'darkgreen',
+    'yellow',
   ]);
 
   useEffect(() => {
@@ -32,9 +30,9 @@ const Moon = () => {
       setWidth(ref.current.offsetWidth);
       setHeight(ref.current.offsetHeight);
     }
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [
     ref.current?.parentElement.offsetWidth,
     ref.current?.parentElement.offsetHeight,
@@ -64,7 +62,7 @@ const Moon = () => {
           <div>${d.agency} - ${d.program} Program</div>
           <div>Landing on <i>${new Date(d.date).toLocaleDateString()}</i></div>
         `}
-        onLabelClick={(d) => window.open(d.url, "_blank")}
+        onLabelClick={(d) => window.open(d.url, '_blank')}
       />
     </div>
   );

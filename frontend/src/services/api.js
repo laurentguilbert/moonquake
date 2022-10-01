@@ -1,10 +1,10 @@
-import { message } from "antd";
+import { message } from 'antd';
 
 class ApiService {
   fetch = (url, customOptions) => {
     const prefixedUrl = `${process.env.PUBLIC_URL}${url}`;
     const options = {
-      method: "get",
+      method: 'get',
       data: undefined,
       useFormdata: false,
       failSilently: false,
@@ -17,9 +17,9 @@ class ApiService {
       signal: options.controller.signal,
       method: options.method,
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      redirect: "follow",
+      redirect: 'follow',
     };
     if (options.data) {
       if (options.useFormdata) {
@@ -36,7 +36,7 @@ class ApiService {
     console.log(prefixedUrl, options);
     return fetch(prefixedUrl, request).then((res) => {
       if (res.ok) {
-        if (res.headers.get("content-type") === "application/json") {
+        if (res.headers.get('content-type') === 'application/json') {
           return res.json();
         }
       } else {
@@ -59,11 +59,11 @@ class ApiService {
 
   getEvents = (filters) => {
     const params = new URLSearchParams();
-    if (filters.types) params.set("type__in", filters.types);
+    if (filters.types) params.set('type__in', filters.types);
     if (filters.startDate)
-      params.set("start_date__gte", filters.startDate.toISOString());
+      params.set('start_date__gte', filters.startDate.toISOString());
     if (filters.endDate)
-      params.set("end_date__lte", filters.endDate.toISOString());
+      params.set('end_date__lte', filters.endDate.toISOString());
     return this.fetch(`/api/events/?${params}`);
   };
 }

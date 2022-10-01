@@ -38,22 +38,21 @@ const Event = ({ event }) => {
   const endDate = dayjs(end_date);
   return (
     <Card className="event">
-      <Row align="middle">
-        <Col span={6}>
+      <Row align="middle" gutter={[20, 5]}>
+        <Col style={{ width: "180px" }}>
           {type ? (
             <Tag color={EventTypeColor[type]}>{EventTypeLabel[type]}</Tag>
           ) : (
             <Tag>Unclassfied</Tag>
           )}
         </Col>
-        <Col span={8}>
+        <Col style={{ width: "250px" }}>
           {startDate.format("MM/DD/YYYY")}{" "}
           <Text strong>
             {startDate.format("HH:mm")} - {endDate.format("HH:mm")}
-          </Text>{" "}
-          UTC
+          </Text>
         </Col>
-        <Col span={10} className="event-data">
+        <Col className="event-data">
           {data_1 && <EventDataTag mission="A11-12" value={data_1} />}
           {data_2 && <EventDataTag mission="A14" value={data_2} />}
           {data_3 && <EventDataTag mission="A15" value={data_3} />}
