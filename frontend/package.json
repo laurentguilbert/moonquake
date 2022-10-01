@@ -12,6 +12,11 @@
     "craco": "^0.0.3",
     "craco-less": "^2.0.0",
     "d3-array": "^3.2.0",
+    "d3-axis": "^3.0.0",
+    "d3-brush": "^3.0.0",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.1.0",
+    "d3-time-format": "^4.1.0",
     "dayjs": "^1.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -42,8 +47,8 @@
     ]
   },
   "devDependencies": {
-    "prettier": "^2.7.1",
-    "@trivago/prettier-plugin-sort-imports": "^3.3.0"
+    "@trivago/prettier-plugin-sort-imports": "^3.3.0",
+    "prettier": "^2.7.1"
   },
   "main": "index.js",
   "license": "MIT"
