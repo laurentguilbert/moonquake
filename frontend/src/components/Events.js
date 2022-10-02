@@ -11,7 +11,7 @@ import {
 import Event from './Event';
 
 const { RangePicker } = DatePicker;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Events = () => {
   const { state, dispatch } = useEventsContext();
@@ -58,6 +58,12 @@ const Events = () => {
           />
         </Form.Item>
       </Form>
+
+      {count ? (
+        <div className="events-count">
+          <Text strong>{count}</Text> events available
+        </div>
+      ) : null}
 
       {loading ? (
         <div className="events-loading">Loading events...</div>
