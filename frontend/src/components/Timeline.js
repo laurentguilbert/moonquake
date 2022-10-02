@@ -125,7 +125,7 @@ const Timeline = ({ margins }) => {
           scale={xScale}
           onEnd={onBrushEnd}
           initialRange={[startDate, endDate]}
-          strokeColor={"#7A7A7A"}
+          strokeColor={'#57558c'}
         />
       </SVGcontainer>
     </div>
