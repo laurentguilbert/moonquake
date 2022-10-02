@@ -131,7 +131,7 @@ const Moon = () => {
         labelColor={() => 'white'}
         labelTypeFace={orbitronFacetype}
         pointsData={points}
-        pointAltitude={0.5}
+        pointAltitude={d => 0.12*d.data}
         pointColor="color"
         pointRadius={0.1}
         pointsTransitionDuration={200}
