@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.db import models
 
 
@@ -56,3 +58,18 @@ class Event(models.Model):
 
     class Meta:
         ordering = ["start_date"]
+
+    def get_data_points(self):
+        data_points = DataPoint.objects.filter(
+            date__lte=self.end_date, date__gte=self.start_date
+        )
+        formatted_data_points = defaultdict(list)
+        for data_point in data_points:
+            formatted_data_points[data_point.site].append(
+                (
+                    data_point.date,
+                    data_point.value,
+                    data_point.channel,
+                )
+            )
+        return formatted_data_points
