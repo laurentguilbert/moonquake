@@ -25,8 +25,8 @@ function App() {
   return (
     <Layout id="app">
       <Layout>
-        <div id="logo">MOONQUAKE</div>
         <Content id="main">
+          <div id="logo">MOONQUAKE</div>
           <Moon />
           <Timeline />
         </Content>
