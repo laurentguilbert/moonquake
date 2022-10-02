@@ -12,10 +12,14 @@ class EventSerializer(ModelSerializer):
         data_points = DataPoint.objects.filter(
             date__lte=event.end_date, date__gte=event.start_date
         )
-        formatted_data_points = defaultdict(lambda: defaultdict(list))
+        formatted_data_points = defaultdict(list)
         for data_point in data_points:
-            formatted_data_points[data_point.site][data_point.channel].append(
-                {"date": data_point.date, "value": data_point.value}
+            formatted_data_points[data_point.site].append(
+                {
+                    "date": data_point.date,
+                    "value": data_point.value,
+                    "label": data_point.channel,
+                }
             )
         return formatted_data_points
 
