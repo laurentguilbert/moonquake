@@ -9,7 +9,6 @@ import sites from '../assets/sites.json';
 import { useEventsContext } from '../contexts/EventsContext';
 import { EventTypeColor } from '../core/enums';
 import { geoCentroid } from 'd3-geo'
-// import { Contour } from '../core/utils'
 
 const getPolygon = (events) => {
   let coords = events.map(e => [e.lng, e.lat])
@@ -21,9 +20,14 @@ const getPolygon = (events) => {
     coords = [c1, c2, [(c1[0]+c2[0])/2, (c1[1]+c2[1])/2]]
   } else if (coords.length > 3) {
     coords = coords.slice(1, 4)
-
   }
-  return {type: "Feature", geometry: { type: 'Polygon', coordinates: [coords] }}
+  return {
+    type: "Feature",
+    geometry: {
+      type: 'Polygon',
+      coordinates: [coords]
+    }
+  }
 }
 
 const Moon = () => {
