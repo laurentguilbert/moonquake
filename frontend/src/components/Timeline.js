@@ -45,7 +45,7 @@ const Timeline = ({ margins }) => {
     ref.current?.parentElement.offsetHeight,
   ]);
 
-  margins = margins ? margins : { left: 30, top: 30, right: 30, bottom: 70 };
+  margins = margins ? margins : { left: 20, top: 30, right: 40, bottom: 70 };
 
   const innerWidth = width - margins.left - margins.right,
     innerHeight = height - margins.top - margins.bottom,
