@@ -24,8 +24,31 @@ const Event = ({ event, showEventDetail }) => {
   const startDate = dayjs(start_date);
   const endDate = dayjs(end_date);
 
-  console.log('selectedEvent', selectedEvent?.id, event.id);
+  // console.log('selectedEvent', selectedEvent?.id, event.id);
   const isSelected = selectedEvent?.id === event.id;
+
+  // selectedEvent.data_points['S11']['MH1']
+  const get_event_data = (event) => {
+    const items = Object.entries(event.data_points)
+      .reduce((acc, curr) => {
+          const [label, data] = curr;
+          return [...acc, ...data.map(point => ({...point, label: `${label}-${point.label}`}))]
+      } , [])
+    return items
+  }
+
+  const get_chart_config = (mission, data) => {
+    const config = {
+        data: data,
+        padding: 'auto',
+        xField: 'date',
+        yField: 'value',
+        seriesField: 'label',
+        height: 200,
+        limitInPlot: true,
+      };
+    return config
+  }
 
   return (
     <Card
@@ -60,19 +83,26 @@ const Event = ({ event, showEventDetail }) => {
           </Col>
         </Row>
 
-        {isSelected ? (
-          <Line
-            data={event.data_points['S11']['MH1']}
-            padding="auto"
-            xField="date"
-            yField="value"
-            height={100}
-            limitInPlot={true}
-          />
-        ) : null}
+        {isSelected && (
+          <>
+          {
+            Object.entries(event.data_points).map(
+              ([mission, missionData], i) => (
+                <>
+                  <div key={`title-${mission}-${i}`}>{mission}</div>
+                  <Line {...get_chart_config(mission, missionData)} key={`chart-${mission}-${i}`}/>
+                </>
+              )
+            )
+          }
+          </>
+        )}
       </Space>
     </Card>
   );
 };
 
 export default Event;
+
+
+
