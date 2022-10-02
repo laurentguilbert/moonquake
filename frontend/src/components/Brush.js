@@ -53,7 +53,6 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
 
   return (
     <g>
-      <g ref={ref}></g>
       <g ref={refLeft}>
         <line y1={0} y2={height} stroke={brushStroke} strokeWidth={5}/>
         <path transform={`translate(${-6}, ${height/2}) rotate(-90)`} 
@@ -68,6 +67,7 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
               fill = {brushStroke}
         />
       </g>
+      <g ref={ref}></g>
     </g>
   )
 }
