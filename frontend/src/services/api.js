@@ -67,6 +67,10 @@ class ApiService {
     return this.fetch(`/api/events/?${params}`);
   };
 
+  getEventDataPoints = (eventId) => {
+    return this.fetch(`/api/events/${eventId}/datapoints/`);
+  };
+
   getTimelineDensity = () => {
     return this.fetch('/api/events/get_timeline_density/');
   };

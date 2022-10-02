@@ -1,10 +1,11 @@
 import { Line } from '@ant-design/plots';
 import { Card, Col, Row, Space, Tag, Typography } from 'antd';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { setSelectedEvent, useEventsContext } from '../contexts/EventsContext';
 import { EventTypeColor, EventTypeLabel } from '../core/enums';
+import { api } from '../services/api';
 
 const { Text } = Typography;
 
@@ -16,39 +17,33 @@ const EventDataTag = ({ mission, value }) => {
   );
 };
 
-const Event = ({ event, showEventDetail }) => {
+const Event = ({ event }) => {
   const { state, dispatch } = useEventsContext();
   const { selectedEvent } = state;
+
+  const [dataPoints, setDataPoints] = useState(null);
 
   const { start_date, end_date, type, data_1, data_2, data_3, data_4 } = event;
   const startDate = dayjs(start_date);
   const endDate = dayjs(end_date);
 
-  // console.log('selectedEvent', selectedEvent?.id, event.id);
   const isSelected = selectedEvent?.id === event.id;
 
-  // selectedEvent.data_points['S11']['MH1']
-  const get_event_data = (event) => {
-    const items = Object.entries(event.data_points)
-      .reduce((acc, curr) => {
-          const [label, data] = curr;
-          return [...acc, ...data.map(point => ({...point, label: `${label}-${point.label}`}))]
-      } , [])
-    return items
-  }
+  useEffect(() => {
+    if (isSelected) {
+      api.getEventDataPoints(event.id).then(setDataPoints);
+    }
+  }, [isSelected, event.id]);
 
-  const get_chart_config = (mission, data) => {
-    const config = {
-        data: data,
-        padding: 'auto',
-        xField: 'date',
-        yField: 'value',
-        seriesField: 'label',
-        height: 200,
-        limitInPlot: true,
-      };
-    return config
-  }
+  const getChartConfig = (data) => ({
+    data: data.map(([date, value, label]) => ({ date, value, label })),
+    padding: 'auto',
+    xField: 'date',
+    yField: 'value',
+    seriesField: 'label',
+    height: 200,
+    limitInPlot: true,
+  });
 
   return (
     <Card
@@ -83,18 +78,17 @@ const Event = ({ event, showEventDetail }) => {
           </Col>
         </Row>
 
-        {isSelected && (
+        {isSelected && dataPoints && (
           <>
-          {
-            Object.entries(event.data_points).map(
-              ([mission, missionData], i) => (
-                <>
-                  <div key={`title-${mission}-${i}`}>{mission}</div>
-                  <Line {...get_chart_config(mission, missionData)} key={`chart-${mission}-${i}`}/>
-                </>
-              )
-            )
-          }
+            {Object.entries(dataPoints).map(([mission, missionData], index) => (
+              <>
+                <div key={`title-${mission}-${index}`}>{mission}</div>
+                <Line
+                  {...getChartConfig(missionData)}
+                  key={`chart-${mission}-${index}`}
+                />
+              </>
+            ))}
           </>
         )}
       </Space>
@@ -103,6 +97,3 @@ const Event = ({ event, showEventDetail }) => {
 };
 
 export default Event;
-
-
-

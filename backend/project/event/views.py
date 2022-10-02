@@ -22,6 +22,10 @@ class EventViewSet(ReadOnlyModelViewSet):
     serializer_class = EventSerializer
     filterset_class = EventFilter
 
+    @action(detail=True)
+    def datapoints(self, request, pk):
+        return Response(self.get_object().get_data_points())
+
     @action(detail=False)
     def get_timeline_density(self, request):
         events = np.array(
