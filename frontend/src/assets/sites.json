@@ -43,14 +43,5 @@
     "agency": "NASA",
     "date": "1972-04-21",
     "url": "https://en.wikipedia.org/wiki/Apollo_16"
-  },
-  {
-    "lat": 20.18935,
-    "lng": 30.76996,
-    "label": "Apollo 17",
-    "program": "Apollo",
-    "agency": "NASA",
-    "date": "1972-12-11",
-    "url": "https://en.wikipedia.org/wiki/Apollo_17"
   }
 ]

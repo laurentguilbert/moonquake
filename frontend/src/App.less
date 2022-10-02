@@ -32,11 +32,12 @@ h1.ant-typography {
 }
 
 #moon {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 220px);
 }
 
 #timeline {
-  height: 150px;
+  height: 220px;
+  background-color: #141428;
 }
 
 #logo {
@@ -52,27 +53,36 @@ h1.ant-typography {
 
 #sidebar {
   height: 100%;
-  overflow-y: auto;
+  background-color: #1d1d3d;
 }
 
 .events {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
   padding: 20px;
+
+  .events-list {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  .events-loading {
+    text-align: center;
+  }
 }
 
 .event {
-  outline: 1px solid transparent;
+  margin-bottom: 5px;
+  cursor: pointer;
+  background-color: #151533;
 
   transition: background-color 100ms linear;
-  transition: outline 100ms linear;
 
   &:hover,
   &.is-active {
-    background-color: #393939;
-    cursor: pointer;
-  }
-
-  &.is-active {
-    outline: 1px solid #666;
+    background-color: #3d3b75;
   }
 
   .event-data {

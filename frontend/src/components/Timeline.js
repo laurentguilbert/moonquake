@@ -1,18 +1,15 @@
-import React, { useEffect, useState, useRef } from "react";
-import { scaleLinear, scaleTime } from "d3-scale";
-import { extent } from "d3-array";
-import { line, curveBasis } from "d3-shape";
-import { api } from "../services/api";
-import dayjs from "dayjs"
+import { extent } from 'd3-array';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import { curveBasis, line } from 'd3-shape';
+import dayjs from 'dayjs';
+import React, { useEffect, useRef, useState } from 'react';
 
-import Axis from './Axis.js'
-import SVGcontainer from './SVGcontainer.js'
-import Brush from './Brush.js'
-import {
-  useEventsContext,
-  setDateRange,
-} from "../contexts/EventsContext";
+import { setDateRange, useEventsContext } from '../contexts/EventsContext';
 import { EventTypeColor } from '../core/enums';
+import { api } from '../services/api';
+import Axis from './Axis.js';
+import Brush from './Brush.js';
+import SVGcontainer from './SVGcontainer.js';
 
 const Timeline = ({ margins }) => {
   const ref = useRef(null);
@@ -48,11 +45,11 @@ const Timeline = ({ margins }) => {
     ref.current?.parentElement.offsetHeight,
   ]);
 
-  margins = margins ? margins : { left: 30, top: 20, right: 30, bottom: 50 };
+  margins = margins ? margins : { left: 30, top: 30, right: 30, bottom: 70 };
 
   const innerWidth = width - margins.left - margins.right,
     innerHeight = height - margins.top - margins.bottom,
-    selectedEventWidth = "6px"
+    selectedEventWidth = '4px';
 
   const xScale = scaleTime()
     .domain(extent(kdeEvents, (d) => d.date))
@@ -94,9 +91,14 @@ const Timeline = ({ margins }) => {
     />
   );
 
-  const SelectedEvent = ({event}) => (
-      <rect style={{fill:EventTypeColor[event.type]}} x={xScale(dayjs(event.start_date))} width={selectedEventWidth} height={innerHeight} />
-  )
+  const SelectedEvent = ({ event }) => (
+    <rect
+      style={{ fill: EventTypeColor[event.type] }}
+      x={xScale(dayjs(event.start_date))}
+      width={selectedEventWidth}
+      height={innerHeight}
+    />
+  );
 
   return (
     <div ref={ref} id="timeline">
@@ -113,14 +115,11 @@ const Timeline = ({ margins }) => {
           scale={xScale}
           orientation="bottom"
           axisOff={true}
-          tickFormat={"%Y"}
+          tickFormat={'%Y'}
         />
         <KDEline />
-        {
-          selectedEvent &&
-            <SelectedEvent event={selectedEvent} />
-        }
-        <Brush 
+        {selectedEvent && <SelectedEvent event={selectedEvent} />}
+        <Brush
           width={innerWidth}
           height={innerHeight}
           scale={xScale}

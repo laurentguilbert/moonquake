@@ -1,7 +1,9 @@
-import { Checkbox, DatePicker, Form, Space, Typography } from 'antd';
-import React from 'react';
+import { Checkbox, DatePicker, Form, Typography } from 'antd';
+import React, { useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {
+  incrementPage,
   setDateRange,
   setTypes,
   useEventsContext,
@@ -13,12 +15,18 @@ const { Title } = Typography;
 
 const Events = () => {
   const { state, dispatch } = useEventsContext();
-  const { startDate, endDate, types, events } = state;
+  const { startDate, endDate, types, events, count, loading } = state;
+
+  useEffect(() => {
+    const scrollableNode = document.getElementById('events-list-scrollable');
+    if (scrollableNode) scrollableNode.scrollTop = 0;
+  }, [loading]);
 
   return (
-    <Space direction="vertical" className="events" style={{ width: '100%' }}>
+    <div className="events">
       <Title>Seismic events</Title>
-      <Form layout="vertical">
+
+      <Form layout="vertical" className="events-filters">
         <Form.Item label="Date range">
           <RangePicker
             showTime
@@ -50,16 +58,29 @@ const Events = () => {
           />
         </Form.Item>
       </Form>
-      <Space
-        className="events-list"
-        direction="vertical"
-        style={{ width: '100%' }}
-      >
-        {events.map((event) => (
-          <Event key={event.id} event={event} />
-        ))}
-      </Space>
-    </Space>
+
+      {loading ? (
+        <div className="events-loading">Loading events...</div>
+      ) : (
+        <div id="events-list-scrollable" className="events-list">
+          <InfiniteScroll
+            dataLength={events.length}
+            scrollableTarget="events-list-scrollable"
+            next={() => {
+              dispatch(incrementPage());
+            }}
+            loader={
+              <div className="events-loading">Loading more events...</div>
+            }
+            hasMore={events.length < count}
+          >
+            {events.map((event) => (
+              <Event key={event.id} event={event} />
+            ))}
+          </InfiniteScroll>
+        </div>
+      )}
+    </div>
   );
 };
 
