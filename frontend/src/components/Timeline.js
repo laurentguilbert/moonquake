@@ -52,7 +52,7 @@ const Timeline = ({ margins }) => {
 
   const innerWidth = width - margins.left - margins.right,
     innerHeight = height - margins.top - margins.bottom,
-    selectedEventWidth = "8px"
+    selectedEventWidth = "6px"
 
   const xScale = scaleTime()
     .domain(extent(kdeEvents, (d) => d.date))
