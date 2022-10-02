@@ -52,7 +52,7 @@ const Timeline = ({ margins }) => {
 
   const innerWidth = width - margins.left - margins.right,
     innerHeight = height - margins.top - margins.bottom,
-    selectedEventWidth = "8px"
+    selectedEventWidth = "6px"
 
   const xScale = scaleTime()
     .domain(extent(kdeEvents, (d) => d.date))
@@ -107,11 +107,13 @@ const Timeline = ({ margins }) => {
           label={{
             left: innerWidth / 2,
             top: 35,
-            text: 'Time',
+            text: 'Seismic activity over time',
             showLabel: true,
           }}
           scale={xScale}
           orientation="bottom"
+          axisOff={true}
+          tickFormat={"%Y"}
         />
         <KDEline />
         {
