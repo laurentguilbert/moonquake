@@ -10,8 +10,7 @@ import SVGcontainer from './SVGcontainer.js'
 import Brush from './Brush.js'
 import {
   useEventsContext,
-  setStartDate,
-  setEndDate,
+  setDateRange,
 } from "../contexts/EventsContext";
 
 const Timeline = ({ margins }) => {
@@ -49,14 +48,17 @@ const Timeline = ({ margins }) => {
       if (selection) {
         const start = dayjs(xScale.invert(selection[0]));
         const end = dayjs(xScale.invert(selection[1]));
+        let need_update = false
         if (start.diff(startDate)) {
-          console.log('updating start')
-          // dispatch(setStartDate(start))
-        } 
+          need_update = true
+        }
         if (end.diff(endDate)) {
-          console.log('updating end')
-          // dispatch(setEndDate(end))
-        } 
+          need_update = true
+        }
+        if (need_update) {
+          dispatch(setDateRange([start, end]))
+
+        }
       }
     }
 
