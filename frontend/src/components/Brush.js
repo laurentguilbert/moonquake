@@ -11,7 +11,16 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
 
   const brushing = ({ selection }) => {
     if (selection) {
-      moveHandles(selection);
+      let [min, max] = selection;
+      // minimum window size
+      const minWindow = 20
+      if (max - minWindow < min) {
+        max = min + minWindow;
+        select(ref.current)
+          .call(brush)
+          .call(brush.move, [min, max]);
+        }
+      moveHandles([min, max]);
     }
   };
 
@@ -34,12 +43,14 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
       [width, height],
     ])
     .handleSize(20)
-    .on('start brush end', (event) => brushing(event))
-    .on('end', (event) => onEnd(event));
+    .on('start brush', (event) => brushing(event))
+    .on('end', (event) => { brushing(event); onEnd(event)});
 
   useEffect(() => {
     if (ref && lower && upper) {
-      select(ref.current).call(brush).call(brush.move, [lower, upper]);
+      select(ref.current)
+        .call(brush)
+        .call(brush.move, [lower, upper]);
 
       select(ref.current)
         .select('rect.selection')
