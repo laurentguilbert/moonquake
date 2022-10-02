@@ -1,5 +1,14 @@
 from django.db import models
-from statistics import mean
+
+
+class DataPoint(models.Model):
+    date = models.DateTimeField()
+    site = models.CharField(max_length=3)
+    channel = models.CharField(max_length=3)
+    value = models.DecimalField(max_digits=12, decimal_places=6, blank=True, null=True)
+
+    class Meta:
+        ordering = ["date"]
 
 
 class Event(models.Model):
@@ -44,6 +53,6 @@ class Event(models.Model):
 
     comments = models.CharField(max_length=150, blank=True, null=True)
     cluster_number = models.IntegerField(blank=True, null=True)
-    
+
     class Meta:
         ordering = ["start_date"]
