@@ -12,7 +12,7 @@ const { Text } = Typography;
 const EventDataTag = ({ mission, value }) => {
   return (
     <Tag color="grey">
-      {mission}: <Text strong>{value}mm</Text>
+      A{mission}: <Text strong>{value}</Text>
     </Tag>
   );
 };

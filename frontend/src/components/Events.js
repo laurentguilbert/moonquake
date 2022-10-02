@@ -73,7 +73,7 @@ const Events = () => {
           <Text strong>Date</Text>
         </Col>
         <Col>
-          <Text strong>Amplitude (by site)</Text>
+          <Text strong>Amplitude (in mm)</Text>
         </Col>
       </Row>
 
