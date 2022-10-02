@@ -10,7 +10,7 @@ const { Text } = Typography;
 const EventDataTag = ({ mission, value }) => {
   return (
     <Tag color="grey">
-      {mission} : <Text strong>{value} mm</Text>
+      {mission}: <Text strong>{value}mm</Text>
     </Tag>
   );
 };
@@ -45,13 +45,13 @@ const Event = ({ event }) => {
         <Col className="event-data">
           {data_1 &&
             (dayjs(start_date).isBefore('1969-09-01') ? (
-              <EventDataTag mission="A11" value={data_1} />
+              <EventDataTag mission="11" value={data_1} />
             ) : (
-              <EventDataTag mission="A12" value={data_1} />
+              <EventDataTag mission="12" value={data_1} />
             ))}
-          {data_2 && <EventDataTag mission="A14" value={data_2} />}
-          {data_3 && <EventDataTag mission="A15" value={data_3} />}
-          {data_4 && <EventDataTag mission="A16" value={data_4} />}
+          {data_2 && <EventDataTag mission="14" value={data_2} />}
+          {data_3 && <EventDataTag mission="15" value={data_3} />}
+          {data_4 && <EventDataTag mission="16" value={data_4} />}
         </Col>
       </Row>
     </Card>
