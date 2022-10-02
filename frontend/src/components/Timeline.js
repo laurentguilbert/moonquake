@@ -17,16 +17,41 @@ const Timeline = ({ margins }) => {
 
   const ref = useRef(null);
   const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
   const [kdeEvents, setEvents] = useState([])
   const { state, dispatch } = useEventsContext();
-  const { startDate, endDate } = state;
+  const { startDate, endDate, selectedEvent } = state;
+
+  useEffect(() => {
+    api
+      .getTimelineDensity()
+      .then(({events}) => {
+        const parsed_events = events.map(ev => ({...ev, date: dayjs(ev.date)}))
+        setEvents(parsed_events)
+      });
+  }, []);
+
+  useEffect(() => {
+    setWidth(ref.current.offsetWidth);
+    setHeight(ref.current.offsetHeight);
+
+    function handleResize() {
+      setWidth(ref.current.offsetWidth);
+      setHeight(ref.current.offsetHeight);
+    }
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, [
+    ref.current?.parentElement.offsetWidth,
+    ref.current?.parentElement.offsetHeight,
+  ]);
 
   margins = margins 
       ? margins
       : {left: 20, top: 20, right: 20, bottom: 50} 
 
-  const height = 200,
-        innerWidth = width - margins.left - margins.right,
+  const innerWidth = width - margins.left - margins.right,
         innerHeight = height - margins.top - margins.bottom
 
   const xScale = scaleTime()
@@ -43,49 +68,23 @@ const Timeline = ({ margins }) => {
     .x(d => xScale(d.date))
     .y(d => yScale(d.y));
 
+  const onBrushEnd = ({ selection }) => {
+    if (selection) {
+      const start = dayjs(xScale.invert(selection[0]));
+      const end = dayjs(xScale.invert(selection[1]));
+      let need_update = false
+      if (start.diff(startDate)) {
+        need_update = true
+      }
+      if (end.diff(endDate)) {
+        need_update = true
+      }
+      if (need_update) {
+        dispatch(setDateRange([start, end]))
 
-    const onBrushEnd = ({ selection }) => {
-      if (selection) {
-        const start = dayjs(xScale.invert(selection[0]));
-        const end = dayjs(xScale.invert(selection[1]));
-        let need_update = false
-        if (start.diff(startDate)) {
-          need_update = true
-        }
-        if (end.diff(endDate)) {
-          need_update = true
-        }
-        if (need_update) {
-          dispatch(setDateRange([start, end]))
-
-        }
       }
     }
-
-  useEffect(() => {
-    api
-      .getTimelineDensity()
-      .then(({events}) => {
-        const parsed_events = events.map(ev => ({...ev, date: dayjs(ev.date)}))
-        setEvents(parsed_events)
-      });
-  }, []);
-
-  useEffect(() => {
-    setWidth(ref.current.offsetWidth);
-    // setHeight(ref.current.offsetHeight);
-
-    function handleResize() {
-      setWidth(ref.current.offsetWidth);
-      // setHeight(ref.current.offsetHeight);
-    }
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, [
-    ref.current?.parentElement.offsetWidth,
-    // ref.current?.parentElement.offsetHeight,
-  ]);
+  }
 
   const KDEline = () => (
       <path 
@@ -95,6 +94,7 @@ const Timeline = ({ margins }) => {
         d={lineGenerator(kdeEvents)}
       />
   )
+
   return (
     <div ref={ref} id="timeline">
       <SVGcontainer width={width} height={height} margins={margins} >
@@ -120,7 +120,6 @@ const Timeline = ({ margins }) => {
       </SVGcontainer>
     </div>
   )
-
 };
 
 export default Timeline;
