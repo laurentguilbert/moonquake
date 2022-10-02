@@ -14,7 +14,7 @@ export const EventTypeColor = Object.freeze({
   M: '#ff8f00',
   C: '#e33434',
   H: '#df9f4e',
-  Z: '#848484',
+  Z: '#5b8aa6',
   L: '#9648e6',
   S: '#9648e6',
   U: '#959595',

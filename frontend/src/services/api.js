@@ -58,6 +58,7 @@ class ApiService {
 
   getEvents = (filters) => {
     const params = new URLSearchParams();
+    if (filters.page) params.set('page', filters.page);
     if (filters.types) params.set('type__in', filters.types);
     if (filters.startDate)
       params.set('start_date__gte', filters.startDate.toISOString());
@@ -68,8 +69,7 @@ class ApiService {
 
   getTimelineDensity = () => {
     return this.fetch('/api/events/get_timeline_density/');
-  }
+  };
 }
-
 
 export const api = new ApiService();
