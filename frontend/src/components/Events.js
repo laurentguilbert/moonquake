@@ -1,4 +1,4 @@
-import { Checkbox, DatePicker, Form, Typography } from 'antd';
+import { Checkbox, Col, DatePicker, Form, Row, Typography } from 'antd';
 import React, { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -64,6 +64,18 @@ const Events = () => {
           <Text strong>{count}</Text> events available
         </div>
       ) : null}
+
+      <Row className="events-labels">
+        <Col style={{ width: '192px' }}>
+          <Text strong>Type</Text>
+        </Col>
+        <Col style={{ width: '250px' }}>
+          <Text strong>Date</Text>
+        </Col>
+        <Col>
+          <Text strong>Amplitude (by site)</Text>
+        </Col>
+      </Row>
 
       {loading ? (
         <div className="events-loading">Loading events...</div>
