@@ -52,7 +52,6 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
 
   return (
     <g>
-      <g ref={ref}></g>
       <g ref={refLeft}>
         <line y1={0} y2={height} stroke={brushStroke} strokeWidth={5} />
         <path
@@ -69,6 +68,7 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
           fill={brushStroke}
         />
       </g>
+      <g ref={ref}></g>
     </g>
   );
 };
