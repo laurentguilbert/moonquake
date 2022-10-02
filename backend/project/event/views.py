@@ -27,9 +27,10 @@ class EventViewSet(ReadOnlyModelViewSet):
             e.toordinal() for e in 
             Event.objects.all().values_list("start_date", flat=True)
         ])
-        density_kwargs = {"bw_method": 0.2}
+        bandwidth = 0.2
+        density_kwargs = {"bw_method": bandwidth / events.std(ddof=1)}
         kde = gaussian_kde(events, **density_kwargs)
-        ind = np.linspace(events.min(), events.max(), 500)
+        ind = np.linspace(events.min(), events.max(), 1000)
         gkde = kde.evaluate(ind)
         return Response({
             "events": [{
