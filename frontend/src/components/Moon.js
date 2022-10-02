@@ -1,3 +1,4 @@
+import { geoCentroid } from 'd3-geo';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import Globe from 'react-globe.gl';
@@ -8,27 +9,26 @@ import orbitronFacetype from '../assets/orbitron_facetype.json';
 import sites from '../assets/sites.json';
 import { useEventsContext } from '../contexts/EventsContext';
 import { EventTypeColor } from '../core/enums';
-import { geoCentroid } from 'd3-geo'
 
 const getPolygon = (events) => {
-  let coords = events.map(e => [e.lng, e.lat])
+  let coords = events.map((e) => [e.lng, e.lat]);
   // create a polygon even if only 1 or 2 points
   if (coords.length == 1) {
-    coords = [...coords, ...coords, ...coords]
+    coords = [...coords, ...coords, ...coords];
   } else if (coords.length == 2) {
-    const [c1, c2] = coords
-    coords = [c1, c2, [(c1[0]+c2[0])/2, (c1[1]+c2[1])/2]]
+    const [c1, c2] = coords;
+    coords = [c1, c2, [(c1[0] + c2[0]) / 2, (c1[1] + c2[1]) / 2]];
   } else if (coords.length > 3) {
-    coords = coords.slice(1, 4)
+    coords = coords.slice(1, 4);
   }
   return {
-    type: "Feature",
+    type: 'Feature',
     geometry: {
       type: 'Polygon',
-      coordinates: [coords]
-    }
-  }
-}
+      coordinates: [coords],
+    },
+  };
+};
 
 const Moon = () => {
   const { state } = useEventsContext();
@@ -126,15 +126,10 @@ const Moon = () => {
 
   useEffect(() => {
     if (points.length) {
-
-    const geoJsonPoint = getPolygon(points)
-    const [lng,lat] = geoCentroid(geoJsonPoint)
-      globeRef.current?.pointOfView(
-        { lat: lat, lng: lng, altitude: 1.5 },
-        500
-      );
+      const geoJsonPoint = getPolygon(points);
+      const [lng, lat] = geoCentroid(geoJsonPoint);
+      globeRef.current?.pointOfView({ lat: lat, lng: lng, altitude: 1.5 }, 500);
     }
-
   }, [points]);
 
   const maxPointsValue = Math.max(...points.map((point) => point.data));

@@ -1,7 +1,7 @@
 import { Line } from '@ant-design/plots';
 import { Card, Col, Row, Space, Tag, Typography } from 'antd';
 import dayjs from 'dayjs';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { setSelectedEvent, useEventsContext } from '../contexts/EventsContext';
 import { EventTypeColor, EventTypeLabel } from '../core/enums';
@@ -21,6 +21,7 @@ const Event = ({ event }) => {
   const { state, dispatch } = useEventsContext();
   const { selectedEvent } = state;
 
+  const eventContainerRef = useRef(null);
   const [dataPoints, setDataPoints] = useState(null);
 
   const { start_date, end_date, type, data_1, data_2, data_3, data_4 } = event;
@@ -32,6 +33,7 @@ const Event = ({ event }) => {
   useEffect(() => {
     if (isSelected) {
       api.getEventDataPoints(event.id).then(setDataPoints);
+      eventContainerRef.current.scrollIntoView();
     }
   }, [isSelected, event.id]);
 
@@ -93,6 +95,7 @@ const Event = ({ event }) => {
 
   return (
     <Card
+      ref={eventContainerRef}
       className={'event ' + (isSelected ? 'is-active' : '')}
       onClick={() => dispatch(setSelectedEvent(event))}
     >
