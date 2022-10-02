@@ -1,14 +1,18 @@
-import { extent } from 'd3-array';
-import { scaleLinear, scaleTime } from 'd3-scale';
-import { curveBasis, line } from 'd3-shape';
-import dayjs from 'dayjs';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState, useRef } from "react";
+import { scaleLinear, scaleTime } from "d3-scale";
+import { extent } from "d3-array";
+import { line, curveBasis } from "d3-shape";
+import { api } from "../services/api";
+import dayjs from "dayjs"
 
-import { setDateRange, useEventsContext } from '../contexts/EventsContext';
-import { api } from '../services/api';
-import Axis from './Axis.js';
-import Brush from './Brush.js';
-import SVGcontainer from './SVGcontainer.js';
+import Axis from './Axis.js'
+import SVGcontainer from './SVGcontainer.js'
+import Brush from './Brush.js'
+import {
+  useEventsContext,
+  setDateRange,
+} from "../contexts/EventsContext";
+import { EventTypeColor } from '../core/enums';
 
 const Timeline = ({ margins }) => {
   const ref = useRef(null);
@@ -47,7 +51,8 @@ const Timeline = ({ margins }) => {
   margins = margins ? margins : { left: 30, top: 20, right: 30, bottom: 50 };
 
   const innerWidth = width - margins.left - margins.right,
-    innerHeight = height - margins.top - margins.bottom;
+    innerHeight = height - margins.top - margins.bottom,
+    selectedEventWidth = "8px"
 
   const xScale = scaleTime()
     .domain(extent(kdeEvents, (d) => d.date))
@@ -89,6 +94,10 @@ const Timeline = ({ margins }) => {
     />
   );
 
+  const SelectedEvent = ({event}) => (
+      <rect style={{fill:EventTypeColor[event.type]}} x={xScale(dayjs(event.start_date))} width={selectedEventWidth} height={innerHeight} />
+  )
+
   return (
     <div ref={ref} id="timeline">
       <SVGcontainer width={width} height={height} margins={margins}>
@@ -105,7 +114,11 @@ const Timeline = ({ margins }) => {
           orientation="bottom"
         />
         <KDEline />
-        <Brush
+        {
+          selectedEvent &&
+            <SelectedEvent event={selectedEvent} />
+        }
+        <Brush 
           width={innerWidth}
           height={innerHeight}
           scale={xScale}
