@@ -12,7 +12,7 @@ const { Text } = Typography;
 const EventDataTag = ({ mission, value }) => {
   return (
     <Tag color="grey">
-      {mission}: <Text strong>{value}mm</Text>
+      A{mission}: <Text strong>{value}</Text>
     </Tag>
   );
 };
@@ -37,12 +37,58 @@ const Event = ({ event }) => {
 
   const getChartConfig = (data) => ({
     data: data.map(([date, value, label]) => ({ date, value, label })),
-    padding: 'auto',
+    padding: 50,
     xField: 'date',
     yField: 'value',
     seriesField: 'label',
     height: 200,
     limitInPlot: true,
+    colorField: 'type',
+    color: ['#fc7953', '#48e5c2', '#fcfaf9'],
+    style: {
+      fill: 'white',
+    },
+    theme: {
+      defaultColor: 'white',
+      styleSheet: {
+        fontFamily: 'Orbitron',
+      },
+    },
+    legend: {
+      itemName: {
+        style: {
+          fill: 'white',
+        },
+      },
+    },
+    xAxis: {
+      label: {
+        formatter: (date) => dayjs(date).format('HH:mm'),
+        style: {
+          fill: 'white',
+        },
+      },
+    },
+    yAxis: {
+      label: {
+        style: {
+          fill: 'white',
+        },
+      },
+      title: {
+        text: 'Digital Units',
+        style: {
+          fontSize: 10,
+          fill: 'white',
+        },
+      },
+    },
+    animation: {
+      appear: {
+        animation: 'path-in',
+        duration: 1000,
+      },
+    },
   });
 
   return (
@@ -81,13 +127,15 @@ const Event = ({ event }) => {
         {isSelected && dataPoints && (
           <>
             {Object.entries(dataPoints).map(([mission, missionData], index) => (
-              <>
-                <div key={`title-${mission}-${index}`}>{mission}</div>
+              <div key={`title-${mission}-${index}`}>
+                <Tag color="black" style={{ marginBottom: '10px' }}>
+                  Site Apollo {mission.substring(1)}
+                </Tag>
                 <Line
                   {...getChartConfig(missionData)}
                   key={`chart-${mission}-${index}`}
                 />
-              </>
+              </div>
             ))}
           </>
         )}
