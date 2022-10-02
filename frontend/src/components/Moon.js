@@ -8,6 +8,23 @@ import orbitronFacetype from '../assets/orbitron_facetype.json';
 import sites from '../assets/sites.json';
 import { useEventsContext } from '../contexts/EventsContext';
 import { EventTypeColor } from '../core/enums';
+import { geoCentroid } from 'd3-geo'
+// import { Contour } from '../core/utils'
+
+const getPolygon = (events) => {
+  let coords = events.map(e => [e.lng, e.lat])
+  // create a polygon even if only 1 or 2 points
+  if (coords.length == 1) {
+    coords = [...coords, ...coords, ...coords]
+  } else if (coords.length == 2) {
+    const [c1, c2] = coords
+    coords = [c1, c2, [(c1[0]+c2[0])/2, (c1[1]+c2[1])/2]]
+  } else if (coords.length > 3) {
+    coords = coords.slice(1, 4)
+
+  }
+  return {type: "Feature", geometry: { type: 'Polygon', coordinates: [coords] }}
+}
 
 const Moon = () => {
   const { state } = useEventsContext();
@@ -104,11 +121,16 @@ const Moon = () => {
   }
 
   useEffect(() => {
-    if (points.length)
+    if (points.length) {
+
+    const geoJsonPoint = getPolygon(points)
+    const [lng,lat] = geoCentroid(geoJsonPoint)
       globeRef.current?.pointOfView(
-        { lat: points[0].lat, lng: points[0].lng, altitude: 1.5 },
+        { lat: lat, lng: lng, altitude: 1.5 },
         500
       );
+    }
+
   }, [points]);
 
   const ringsData = points.map((point) => ({ ...point }));
