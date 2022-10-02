@@ -52,22 +52,27 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
 
   return (
     <g>
-      <g ref={refLeft}>
-        <line y1={0} y2={height} stroke={brushStroke} strokeWidth={5} />
-        <path
-          transform={`translate(${-6}, ${height / 2}) rotate(-90)`}
-          d={symbol().type(symbolTriangle).size(90)()}
-          fill={brushStroke}
-        />
-      </g>
-      <g ref={refRight}>
-        <line y1={0} y2={height} stroke={brushStroke} strokeWidth={5} />
-        <path
-          transform={`translate(${6}, ${height / 2}) rotate(90)`}
-          d={symbol().type(symbolTriangle).size(90)()}
-          fill={brushStroke}
-        />
-      </g>
+      { lower && upper && (
+          <g>
+            <g ref={refLeft}>
+              <line y1={0} y2={height} stroke={brushStroke} strokeWidth={5} />
+              <path
+                transform={`translate(${-6}, ${height / 2}) rotate(-90)`}
+                d={symbol().type(symbolTriangle).size(90)()}
+                fill={brushStroke}
+              />
+            </g>
+            <g ref={refRight}>
+              <line y1={0} y2={height} stroke={brushStroke} strokeWidth={5} />
+              <path
+                transform={`translate(${6}, ${height / 2}) rotate(90)`}
+                d={symbol().type(symbolTriangle).size(90)()}
+                fill={brushStroke}
+              />
+            </g>
+          </g>
+        )
+      }
       <g ref={ref}></g>
     </g>
   );
