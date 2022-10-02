@@ -112,6 +112,8 @@ const Timeline = ({ margins }) => {
           }}
           scale={xScale}
           orientation="bottom"
+          axisOff={true}
+          tickFormat={"%Y"}
         />
         <KDEline />
         {
