@@ -107,7 +107,7 @@ const Timeline = ({ margins }) => {
           label={{
             left: innerWidth / 2,
             top: 35,
-            text: 'Time',
+            text: 'Seismic activity over time',
             showLabel: true,
           }}
           scale={xScale}

@@ -38,7 +38,7 @@ const Axis = ({ scale, left, top, label, orientation, axisOff, tickFormat }) => 
     <g transform={`translate(${left}, ${top})`}>
       <g ref={ref}></g>
       {label && label.showLabel &&
-        <text fill='currentColor' transform={`translate(${label.left}, ${label.top})${rotate}`} style={{textAnchor: "middle" }}>
+        <text fill='currentColor' font-weight='bold' transform={`translate(${label.left}, ${label.top})${rotate}`} style={{textAnchor: "middle" }}>
           {label.text}
         </text>
       }
