@@ -38,15 +38,17 @@ const Brush = ({ width, height, scale, onEnd, initialRange, strokeColor }) => {
     .on("end", (event) => onEnd(event))
 
   useEffect(() => {
-    select(ref.current)
-      .call(brush)
-      .call(brush.move, [lower, upper])
+    if (ref && lower && upper){
+      select(ref.current)
+        .call(brush)
+        .call(brush.move, [lower, upper])
 
-    select(ref.current).select("rect.selection")
-      .attr("stroke", strokeColor)
-      .attr("stroke-width", "2px")
+      select(ref.current).select("rect.selection")
+        .attr("stroke", strokeColor)
+        .attr("stroke-width", "2px")
 
-    moveHandles([lower, upper])
+      moveHandles([lower, upper])
+    }
   }, [scale, initialRange]);
 
   return (
