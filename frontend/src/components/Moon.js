@@ -111,7 +111,17 @@ const Moon = () => {
       );
   }, [points]);
 
-  const ringsData = points.map((point) => ({ ...point }));
+  const maxPointsValue = Math.max(...points.map((point) => point.data));
+
+  const ringsData = points.map((point) => ({
+    ...point,
+    maxR: (point.data / maxPointsValue) * 7,
+  }));
+
+  const pointsData = points.map((point) => ({
+    ...point,
+    altitude: (point.data / maxPointsValue) * 0.5,
+  }));
 
   return (
     <div ref={containerRef} id="moon">
@@ -130,14 +140,14 @@ const Moon = () => {
         labelIncludeDot={false}
         labelColor={() => 'white'}
         labelTypeFace={orbitronFacetype}
-        pointsData={points}
-        pointAltitude={d => 0.12*d.data}
+        pointsData={pointsData}
+        pointAltitude="altitude"
         pointColor="color"
         pointRadius={0.1}
         pointsTransitionDuration={200}
         ringsData={ringsData}
         ringColor="color"
-        ringMaxRadius={7}
+        ringMaxRadius="maxR"
         ringPropagationSpeed={2}
         ringRepeatPeriod={300}
       />
